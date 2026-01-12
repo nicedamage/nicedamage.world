@@ -1,86 +1,76 @@
+/* Reset everything */
 * {
     box-sizing: border-box;
-  }
-
-  body {
-    background: hotpink !important;
-  }
-  
-  html, body {
     margin: 0;
     padding: 0;
   }
   
-  body {
+  /* Body + overall page */
+  html, body {
+    background: hotpink; /* pink page background */
     font-family: "Comic Neue", -apple-system, BlinkMacSystemFont, sans-serif;
-    line-height: 1.5;          /* calm spacing for readability */
-    background: #ffffff;        /* clean, neutral white */
-    color: #111111;             /* soft black, not harsh */
-    margin: 0;                  /* remove default browser margin */
-    padding: 0;                 /* remove default padding */
+    line-height: 1.4;
+    color: black;
   }
   
-
+  /* Headings */
   h1, h2, h3 {
-    font-weight: 400;           /* medium weight for calm tone */
-    letter-spacing: -0.02em;    /* slight compression, visual tension */
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin: 0;
+    background: yellow;
+    display: inline;
   }
   
-  p {
-    max-width: 60ch;            /* nice line length for reading */
-    margin-bottom: 1.5rem;      /* rhythm between paragraphs */
-  }
-  
-  
+  /* Paragraphs */
   p {
     max-width: 60ch;
+    margin: 0 0 1.5rem 0; /* vertical spacing only */
+  }
+  
+  /* Text block (tight yellow outline) */
+  .text-block {
+    display: inline;       /* hugs the text */
+    padding: 0.1em 0.2em;  /* tiny breathing room */
+  }
+  
+  
+  /* Links - standard hyperlink blue */
+  a {
+    color: #1a0dab;          /* standard blue */
+    text-decoration: underline;
+  }
+  
+  a:hover {
+    text-decoration: none;
+    background: blue;
   }
 
-
-  main {
-    padding: 3rem 2.5rem;
-    max-width: 900px;
+  nav{
+    background-color: white;
+    display:inline-block;
+    font-size: 18px;
   }
   
-  header {
-    margin-bottom: 4rem;
-  }
-  
-  h1 {
-    font-size: 2.5rem;
-    font-weight: 400;
-    margin-bottom: 1rem;
-  }
-  
-  .intro {
-    max-width: 55ch;
-    font-size: 1rem;
-  }
-  
+  /* Lists - remove bullets */
   .list {
     list-style: none;
     padding: 0;
     margin: 0;
-    text-decoration: none;
-    color: black;
+    display: inline;       /* hugs the text */
   }
   
   .list li {
-    margin-bottom: 0.75rem;
+    display: inline;         /* horizontal nav */    
   }
   
-  a {
-    color: black;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
-
-  footer{
+  /* Footer */
+  footer {
     text-align: center;
   }
+  
+  
+  
 
 
   
