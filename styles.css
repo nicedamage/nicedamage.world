@@ -12,24 +12,30 @@
   }
   
   body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    line-height: 1.4;
-    background: white;
-    color: black;
+    font-family: "Comic Neue", -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.5;          /* calm spacing for readability */
+    background: #ffffff;        /* clean, neutral white */
+    color: #111111;             /* soft black, not harsh */
+    margin: 0;                  /* remove default browser margin */
+    padding: 0;                 /* remove default padding */
   }
+  
 
   h1, h2, h3 {
-    font-weight: 500;
-    letter-spacing: -0.02em;
+    font-weight: 400;           /* medium weight for calm tone */
+    letter-spacing: -0.02em;    /* slight compression, visual tension */
   }
+  
+  p {
+    max-width: 60ch;            /* nice line length for reading */
+    margin-bottom: 1.5rem;      /* rhythm between paragraphs */
+  }
+  
   
   p {
     max-width: 60ch;
   }
 
-  main {
-    padding: 2rem;
-  }
 
   main {
     padding: 3rem 2.5rem;
