@@ -8,7 +8,7 @@
   /* Body + overall page */
   html, body {
     background: hotpink; /* pink page background */
-    font-family: "Comic Neue", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: "Comic Neue", sans-serif;
     line-height: 1.4;
     color: black;
   }
@@ -19,6 +19,10 @@
     letter-spacing: -0.02em;
     margin: 0;
     background: yellow;
+    display: inline;
+  }
+
+  h2 {
     display: inline;
   }
   
