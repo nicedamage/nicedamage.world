@@ -39,19 +39,19 @@
   }
   
   
-  /* Links - standard hyperlink blue */
+ 
   a {
-    color: #1a0dab;          /* standard blue */
+    color: #000000;         
     text-decoration: underline;
   }
   
   a:hover {
     text-decoration: none;
+    color: rgb(7, 255, 243);
     background: blue;
   }
 
   nav{
-    background-color: white;
     display:inline-block;
     font-size: 18px;
   }
@@ -72,6 +72,42 @@
   footer {
     text-align: center;
   }
+
+  #music-player {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: yellow;
+    border: 1px solid black;
+    padding: 0.4rem;
+    font-size: 12px;
+    z-index: 9999;
+    cursor: move;
+    box-shadow: 2px 2px 0 black;
+  }
+  
+  .player-header {
+    font-size: 11px;
+    margin-bottom: 0.25rem;
+    text-transform: lowercase;
+  }
+  
+  #music-player audio {
+    width: 160px;
+  }
+
+  @media (max-width: 600px) {
+    .music-player {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    #music-player {
+      display: none;
+    }
+  }
+  
   
   
   
