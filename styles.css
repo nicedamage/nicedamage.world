@@ -9,7 +9,8 @@
   
   /* Body + overall page */
   html, body {
-    background: hotpink; /* pink page background */
+    background-image: url("blue035.jpg");
+    background-repeat: repeat; 
     font-family: "Comic Neue", sans-serif;
     color: black;
   }
@@ -99,8 +100,8 @@
 /* ===== Floating Player ===== */
 #music-player {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 60px;
+  right: 30px;
   width: 300px;
   background:
     linear-gradient(
@@ -139,7 +140,6 @@
   background: black;
   border-radius: 2px;
   overflow: hidden;
-  padding: 5px;
 }
 
 /* Controls */
