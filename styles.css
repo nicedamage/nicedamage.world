@@ -82,17 +82,17 @@
   background:
     linear-gradient(
       to bottom,
-      #ff8989 0%,
-      #560ec2 45%,
-      #9be69b 100%
+      #61fff4af 0%,
+      #61fff4af 45%,
+      #478e97e8 100%
     );
   border-radius: 18px;
+  border: outset 1px;
   padding: 12px;
   box-shadow:
     0 10px 25px rgba(0,0,0,0.35),
     inset 0 1px 0 rgba(255,255,255,0.9),
     inset 0 -2px 4px rgba(0,0,0,0.15);
-
   cursor: grab;
   z-index: 9999;
 }
@@ -101,9 +101,6 @@
 
 /* Header */
 .wmp-header {
-  font-size: 0.75rem;
-  font-weight: bold;
-  color: #1b3558;
   text-transform: lowercase;
   margin-bottom: 6px;
   padding-left: 4px;
@@ -141,69 +138,101 @@
   margin-top: 10px;
 }
 
+/* ===== Volume Slider Styling ===== */
 #volume {
-  width: 130px;
+  width: 120px;
   margin-left: 10px;
-  justify-content: right;
+  accent-color:rgb(7, 255, 243);
+  cursor: pointer;
+}
+
+/* Chrome, Edge, Safari */
+#volume::-webkit-slider-runnable-track {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px outset rgba(0,0,0,0.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.8),
+    inset 0 -1px 2px rgba(0,0,0,0.25);
+}
+
+#volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border-radius: 50%;
+  background: rgba(183, 115, 19, 0.75);
+  border: 2px bevel rgba(255, 255, 255, 0.57);
+  box-shadow:
+    inset 0 0 6px rgba(255,255,255,0.7),
+    0 4px 6px rgba(0,0,0,0.45);
+  cursor: pointer;
+  margin-top: -5px;
+}
+
+
+
+
+/* Firefox */
+#volume::-moz-range-track {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(0,0,0,0.35);
+}
+
+#volume::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(93, 61, 255, 0.65);
+  border: 1px inset rgba(255,255,255,0.7);
+  cursor: pointer;
+}
+
+#volume:focus {
+  outline: none;
 }
 
 .wmp-controls button {
-  width: 32px;
-  height: 32px;
-  border-radius: 3px;
-  background: rgba(255, 61, 245, 0.324);
-  color: beige;
+  width: 40px;
+  height: 34px;
+  border-radius: 18px;
+  border: 2px rgba(255, 255, 255, 0.629) outset;
+  background: rgba(61, 54, 98, 0.65);
+  color: rgb(255, 255, 255);
   cursor: pointer;
-  box-shadow: inset 0 -2px rgba(255, 255, 255, 0.5);
-  transition: all 0.2s;
-  text-shadow: 0 0 2px rgba(0,0,0,.3);
-  box-shadow:
-      inset 0 0 2px 0 rgba(255,255,255,.4),
-      inset 0 0 3px 0 rgba(0,0,0,.4),
-      inset 0 0 3px 5px rgba(0,0,0,.05),
-      2px 2px 4px 0 rgba(0,0,0,.25);
+  transition: transform 0.2s ease, background 0.2s ease;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
 
 }
 
 .wmp-controls button:hover {
-  background: #ff00ff;
-  transform: scale(1.1);
-  transform: translateY(-2px); /* Slight lift on hover */
-
+  background: rgba(0, 0, 0, 0.608);;
+  transform: scale(.97);
 }
+
+.wmp-controls button:active {
+  transform: scale(1.05);
+  background: rgba(77, 255, 64, 0.45);
+}
+
 
 .wmp-controls input[type="range"] {
   width: 60px;
 }
 
-/* Progress bar */
-#progress-container {
-  flex: 1;
-  height: 6px;
-  background: rgb(255, 255, 255);
-  margin-left: 5px;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-#progress {
-  height: 100%;
-  background: rgb(255, 129, 242);
-  box-shadow: 0 0 8px rgba(255,255,255,0.5);
-}
 
 .wmp-song-title {
-  font-size: 0.8rem;
-  color: #1b3558;
-  margin-top: 2px;
+  color: #0f2a4d;
+  margin-rgb(11, 24, 40)x;
   padding-left: 4px;
   text-transform: none;
 }
 
 .wmp-header {
-  font-size: 0.75rem;
+  font-size: 1rem;
   font-weight: bold;
-  color: #1b3558;
+  color: #0f2a4d;
   text-transform: lowercase;
   margin-bottom: 6px;
   padding-left: 4px;
