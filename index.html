@@ -191,54 +191,68 @@
 </head>
 
 <header>
-  <img class="banner" src="star-banner.gif" alt="">
-  <img class="banner" src="star-banner.gif" alt="">
-  <img class="banner" src="star-banner.gif" alt="">
-  <img class="banner" src="star-banner.gif" alt="">
+  <img class="banner-mobile" src="./gifs/star-banner.gif" alt="">
+  <img class="banner" src="./gifs/star-banner.gif" alt="">
+  <img class="banner" src="./gifs/star-banner.gif" alt="">
+  <img class="banner" src="./gifs/star-banner.gif" alt="">
 </header>
 <body>
 
-  <!-- MEDIA PLAYER -->
-  <div id="music-player" class="wmp-player">
-    <div class="wmp-header">
-      <span class="label">now playing:</span>
-      <div class="track-marquee">
-        <span id="track-title"></span>
-      </div>
-    </div>
-    
+<!-- MEDIA PLAYER -->
+<div id="music-player" class="wmp-player">
 
-    <div class="wmp-visualizer">
-      <canvas id="visualizer-canvas"></canvas>
-    </div>
+  <div class="wmp-titlebar">
+    <div class="wmp-title">nice damage radio</div>
+    <button id="wmp-minimize" class="wmp-btn">_</button>
+    <button id="wmp-close" class="wmp-btn">✕</button>
+  </div>
+  
+  
 
-    <audio id="audio"></audio>
-    <div class="wmp-controls">
-      <button id="prev">◀◀</button>
-      <button id="play">▶</button>
-      <button id="next">▶▶</button>
-    
-      <input type="range" id="volume" min="0" max="1" step="0.05" value="0.8">
-      
-    
+  <div class="wmp-header">
+    <span class="label">now playing:</span>
+    <div class="track-marquee">
+      <span id="track-title"></span>
+    </div>
+  </div>
+
+  <div class="wmp-visualizer">
+    <canvas id="visualizer-canvas"></canvas>
+  </div>
+
+  <audio id="audio"></audio>
+
+  <div class="wmp-controls">
+    <button id="prev">◀◀</button>
+    <button id="play">▶</button>
+    <button id="next">▶▶</button>
+    <input type="range" id="volume" min="0" max="1" step="0.05" value="0.8">
+  </div>
+</div>
+
+<!-- Tiny icon when closed -->
+<div id="music-player-mini">♪</div>
+
+
       <!-- <div id="progress-container">
         <div id="progress"></div>
       </div> -->
-    </div>
-  </div>
+
 
   <main>
     <section class="text-block">
       <h1>
+       
         <span class="word-wrap">welcome</span>
         <span class="word-wrap">to</span>
         <span class="word-wrap">nice</span>
         <span class="word-wrap">damage</span>
         <span class="word-wrap">world!</span>
+        <img class="heart-beat" src="./gifs/heart-beat.gif" alt="">
       </h1>
       
       <br>
-      <img class="felt-quote" src="felt-quote.gif" alt="">
+      <img class="felt-quote" src="./gifs/felt-quote.gif" alt="">
     </section>
 
     <nav>
@@ -248,245 +262,238 @@
         <li><a  href="#">★ zines</a></li>
       </ul>
     </nav>
+    <br>
 
-
+    <img src="./gifs/dragon02.gif" alt="" style="transform: translateY(160px);">
+    <br>
+    <img src="./gifs/scorpio.gif" alt="" style="transform: translateY(120px);">
   
   </main>
 
   <footer> 
-    <img class="banner" src="star-banner.gif" alt="">
-    <img class="banner" src="star-banner.gif" alt="">
-    <img class="banner" src="star-banner.gif" alt="">
-    <img class="banner" src="star-banner.gif" alt="">
+    <img class="banner" src="./gifs/star-banner.gif" alt="">
+    <img class="banner" src="./gifs/star-banner.gif" alt="">
+    <img class="banner" src="./gifs/star-banner.gif" alt="">
+    <img class="banner-mobile" src="./gifs/star-banner.gif" alt="">
+    <br>
     <small>© 2026</small>
   </footer>
 
   <!-- MUSIC PLAYER JS -->
   <script>
-
-  // ===== AUDIO + PLAYER SETUP =====
-  const player = document.getElementById("music-player");
-  const audio = document.getElementById("audio");
-  const playBtn = document.getElementById("play");
-  const nextBtn = document.getElementById("next");
-  const prevBtn = document.getElementById("prev");
-  const volume = document.getElementById("volume");
-  const trackTitle = document.getElementById("track-title");
-
-  const canvas = document.getElementById("visualizer-canvas");
-  const ctx = canvas.getContext("2d");
-
-  canvas.width = canvas.offsetWidth;
-  canvas.height = canvas.offsetHeight;
-  
-
-  // ===== PLAYLIST =====
-  const playlist = [
-    {
-      title: "Aphex Twin – Windowlicker",
-      src: "windowlicker.mp3"
-    },
-
-    {
-      title: "Plush Managements Inc. - Mr. Mailman feat. Bea",
-      src: "mr-mailman-feat-bea.mp3"
-    }
-  ];
-
-  let currentTrack = 0;
-
-  function loadTrack(index) {
-    audio.src = playlist[index].src;
-    trackTitle.textContent = playlist[index].title;
-  }
-
-  loadTrack(currentTrack);
-
-  // ===== AUDIO CONTEXT =====
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  const audioCtx = new AudioContext();
-  const source = audioCtx.createMediaElementSource(audio);
-  const analyser = audioCtx.createAnalyser();
-
-  analyser.fftSize = 128;
-
-  const bufferLength = analyser.frequencyBinCount;
-  const dataArray = new Uint8Array(bufferLength);
-
-  source.connect(analyser);
-  analyser.connect(audioCtx.destination);
-
-  // ===== CONTROLS =====
-  playBtn.addEventListener("click", () => {
-    if (audio.paused) {
-      audioCtx.resume();
-      audio.play();
-      playBtn.textContent = "❚❚";
-      renderVisualizer();
-    } else {
-      audio.pause();
-      playBtn.textContent = "▶";
-    }
-  });
-
-  nextBtn.addEventListener("click", () => {
-    currentTrack = (currentTrack + 1) % playlist.length;
-    loadTrack(currentTrack);
-    audio.play();
-  });
-
-  prevBtn.addEventListener("click", () => {
-    currentTrack =
-      (currentTrack - 1 + playlist.length) % playlist.length;
-    loadTrack(currentTrack);
-    audio.play();
-  });
-
-  volume.addEventListener("input", () => {
-    audio.volume = volume.value;
-  });
-
-  const progress = document.getElementById("progress");
-audio.addEventListener("timeupdate", () => {
-  if (!audio.duration) return;
-  const percent = (audio.currentTime / audio.duration) * 100;
-  progress.style.width = percent + "%";
-});
-
-  audio.addEventListener("ended", () => {
-    currentTrack = (currentTrack + 1) % playlist.length;
-    loadTrack(currentTrack);
-    audio.play();
-  });
-
-
-// ------- VISUALIZER -------
-let time = 0;
-let energySmoothed = 0;
-
-function renderVisualizer() {
-  requestAnimationFrame(renderVisualizer);
-  analyser.getByteFrequencyData(dataArray);
-
-  // Liquid fade (not a hard clear)
-  ctx.fillStyle = "rgba(0,0,0,0.22)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  const cx = canvas.width / 2;
-  const cy = canvas.height / 2;
-
-  // ---- ENERGY ANALYSIS ----
-  let low = 0, mid = 0, high = 0;
-
-  for (let i = 0; i < bufferLength; i++) {
-    const v = dataArray[i];
-    if (i < bufferLength * 0.25) low += v;
-    else if (i < bufferLength * 0.6) mid += v;
-    else high += v;
-  }
-
-  low /= bufferLength * 0.25;
-  mid /= bufferLength * 0.35;
-  high /= bufferLength * 0.4;
-
-  const energy = (low * 0.5 + mid * 0.35 + high * 0.15) / 255;
-  energySmoothed = energySmoothed * 0.9 + energy * 0.1;
-
-  // Silence = no drawing
-  if (energySmoothed < 0.015) return;
-
-  // ---- FIELD PARAMETERS ----
-  const turbulence = low * 0.004;     // B: motion
-  const flowSpeed  = mid * 0.0008;    // B: speed
-  const shimmer    = high * 0.002;    // C: color refraction
-
-  time += 0.6 + flowSpeed * 120;
-
-  const pointCount = 70; // high density = no dead zones
-  const baseRadius = Math.min(canvas.width, canvas.height) * 0.18;
-
-  ctx.beginPath();
-
-  for (let i = 0; i <= pointCount; i++) {
-    const a = (i / pointCount) * Math.PI * 2;
-
-    // Field distortion (NO center anchoring)
-    const field =
-      Math.sin(a * 3 + time * 0.01) +
-      Math.sin(a * 7 - time * 0.008) * 0.6 +
-      Math.sin(time * 0.04 + i) * turbulence * 100;
-
-    const r = baseRadius + field * 1 * energySmoothed;
-
-    const x = cx + Math.cos(a) * r;
-    const y = cy + Math.sin(a) * r;
-
-    if (i === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
-  }
-
-// ---- WMP PLASMA PALETTE ----
-const palette = [
-  { h: 285, s: 70, l: 55 }, // magenta-violet
-  { h: 215, s: 65, l: 55 }, // electric blue
-  { h: 185, s: 60, l: 55 }, // cyan-teal
-  { h: 245, s: 60, l: 55 }  // indigo
-];
-
-// very slow drift through palette
-const drift = (Math.sin(time * 0.0015) + 1) / 2;
-const idx = Math.floor(drift * (palette.length - 1));
-const c1 = palette[idx];
-const c2 = palette[(idx + 1) % palette.length];
-
-// interpolate hue (no rainbow sweep)
-const hue = 220 + Math.sin(time * 0.0008) * 15;
-ctx.strokeStyle = `hsla(${hue}, 60%, 60%, ${0.35 + energySmoothed * 0.2})`;
-ctx.lineWidth = 1.6 + energySmoothed * 2;
-ctx.shadowColor = `hsla(${hue}, 70%, 65%, 0.6)`;
-
-ctx.stroke();
-
-
-// thickness reacts to energy
-const thickness = 1.4 + energySmoothed * 2.2;
-
-ctx.strokeStyle = `hsla(${hue}, ${c1.s}%, ${c1.l}%, ${0.35 + energySmoothed * 0.25})`;
-ctx.lineWidth = thickness;
-ctx.shadowColor = `hsla(${hue}, 80%, 60%, 0.5)`;
-ctx.stroke();
-
-}
-
-
-// ===== DRAGGABLE PLAYER =====
-let isDragging = false;
-let offsetX = 0;
-let offsetY = 0;
-
-player.style.position = "fixed";
-player.style.cursor = "grab";
-
-player.addEventListener("mousedown", (e) => {
-  isDragging = true;
-  offsetX = e.clientX - player.offsetLeft;
-  offsetY = e.clientY - player.offsetTop;
-  player.style.cursor = "grabbing";
-});
-
-document.addEventListener("mousemove", (e) => {
-  if (!isDragging) return;
-  player.style.left = e.clientX - offsetX + "px";
-  player.style.top = e.clientY - offsetY + "px";
-});
-
-document.addEventListener("mouseup", () => {
-  isDragging = false;
-  player.style.cursor = "grab";
-});
-
-
-  </script>
+    window.addEventListener("DOMContentLoaded", () => {
+    
+      // ===== AUDIO + PLAYER SETUP =====
+      const player = document.getElementById("music-player");
+      const audio = document.getElementById("audio");
+      const playBtn = document.getElementById("play");
+      const nextBtn = document.getElementById("next");
+      const prevBtn = document.getElementById("prev");
+      const volume = document.getElementById("volume");
+      const trackTitle = document.getElementById("track-title");
+    
+      const canvas = document.getElementById("visualizer-canvas");
+      const ctx = canvas.getContext("2d");
+    
+      if (canvas) {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+    
+      // ===== PLAYLIST =====
+      const playlist = [
+        { title: "Aphex Twin – Windowlicker", src: "windowlicker.mp3" },
+        { title: "Plush Managements Inc. - Mr. Mailman feat. Bea", src: "mr-mailman-feat-bea.mp3" }
+      ];
+    
+      let currentTrack = 0;
+    
+      function loadTrack(index) {
+        audio.src = playlist[index].src;
+        trackTitle.textContent = playlist[index].title;
+      }
+    
+      loadTrack(currentTrack);
+    
+      // ===== AUDIO CONTEXT =====
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      const audioCtx = new AudioContext();
+      const source = audioCtx.createMediaElementSource(audio);
+      const analyser = audioCtx.createAnalyser();
+    
+      analyser.fftSize = 128;
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+    
+      source.connect(analyser);
+      analyser.connect(audioCtx.destination);
+    
+      // ===== CONTROLS =====
+      playBtn.addEventListener("click", () => {
+        if (audio.paused) {
+          audioCtx.resume();
+          audio.play();
+          playBtn.textContent = "❚❚";
+          renderVisualizer();
+        } else {
+          audio.pause();
+          playBtn.textContent = "▶";
+        }
+      });
+    
+      nextBtn.addEventListener("click", () => {
+        currentTrack = (currentTrack + 1) % playlist.length;
+        loadTrack(currentTrack);
+        audio.play();
+      });
+    
+      prevBtn.addEventListener("click", () => {
+        currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+        loadTrack(currentTrack);
+        audio.play();
+      });
+    
+      volume.addEventListener("input", () => {
+        audio.volume = volume.value;
+      });
+    
+      audio.addEventListener("ended", () => {
+        currentTrack = (currentTrack + 1) % playlist.length;
+        loadTrack(currentTrack);
+        audio.play();
+      });
+    
+      // ------- VISUALIZER -------
+      let time = 0;
+      let energySmoothed = 0;
+    
+      function renderVisualizer() {
+        requestAnimationFrame(renderVisualizer);
+        analyser.getByteFrequencyData(dataArray);
+    
+        ctx.fillStyle = "rgba(0,0,0,0.22)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2;
+    
+        let low = 0, mid = 0, high = 0;
+    
+        for (let i = 0; i < bufferLength; i++) {
+          const v = dataArray[i];
+          if (i < bufferLength * 0.25) low += v;
+          else if (i < bufferLength * 0.6) mid += v;
+          else high += v;
+        }
+    
+        low /= bufferLength * 0.25;
+        mid /= bufferLength * 0.35;
+        high /= bufferLength * 0.4;
+    
+        const energy = (low * 0.5 + mid * 0.35 + high * 0.15) / 255;
+        energySmoothed = energySmoothed * 0.9 + energy * 0.1;
+    
+        if (energySmoothed < 0.015) return;
+    
+        const turbulence = low * 0.004;
+        const flowSpeed = mid * 0.0008;
+        const shimmer = high * 0.002;
+    
+        time += 0.6 + flowSpeed * 120;
+    
+        const pointCount = 70;
+        const baseRadius = Math.min(canvas.width, canvas.height) * 0.18;
+    
+        ctx.beginPath();
+    
+        for (let i = 0; i <= pointCount; i++) {
+          const a = (i / pointCount) * Math.PI * 2;
+          const field =
+            Math.sin(a * 3 + time * 0.01) +
+            Math.sin(a * 7 - time * 0.008) * 0.6 +
+            Math.sin(time * 0.04 + i) * turbulence * 100;
+    
+          const r = baseRadius + field * 1 * energySmoothed;
+          const x = cx + Math.cos(a) * r;
+          const y = cy + Math.sin(a) * r;
+    
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+    
+        const palette = [
+          { h: 285, s: 70, l: 55 },
+          { h: 215, s: 65, l: 55 },
+          { h: 185, s: 60, l: 55 },
+          { h: 245, s: 60, l: 55 }
+        ];
+    
+        const drift = (Math.sin(time * 0.0015) + 1) / 2;
+        const idx = Math.floor(drift * (palette.length - 1));
+        const c1 = palette[idx];
+    
+        const hue = 220 + Math.sin(time * 0.0008) * 15;
+        ctx.strokeStyle = `hsla(${hue}, 60%, 60%, ${0.35 + energySmoothed * 0.2})`;
+        ctx.lineWidth = 1.6 + energySmoothed * 2;
+        ctx.shadowColor = `hsla(${hue}, 70%, 65%, 0.6)`;
+        ctx.stroke();
+    
+        const thickness = 1.4 + energySmoothed * 2.2;
+        ctx.strokeStyle = `hsla(${hue}, ${c1.s}%, ${c1.l}%, ${0.35 + energySmoothed * 0.25})`;
+        ctx.lineWidth = thickness;
+        ctx.shadowColor = `hsla(${hue}, 80%, 60%, 0.5)`;
+        ctx.stroke();
+      }
+    
+      // ===== DRAGGABLE PLAYER =====
+      let isDragging = false;
+      let offsetX = 0;
+      let offsetY = 0;
+    
+      player.style.position = "fixed";
+      player.style.cursor = "grab";
+    
+      player.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        offsetX = e.clientX - player.offsetLeft;
+        offsetY = e.clientY - player.offsetTop;
+        player.style.cursor = "grabbing";
+      });
+    
+      document.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        player.style.left = e.clientX - offsetX + "px";
+        player.style.top = e.clientY - offsetY + "px";
+      });
+    
+      document.addEventListener("mouseup", () => {
+        isDragging = false;
+        player.style.cursor = "grab";
+      });
+    
+      // ===== MINIMIZE / CLOSE =====
+      const mini = document.getElementById("music-player-mini");
+      const minimizeBtn = document.getElementById("wmp-minimize");
+      const closeBtn = document.getElementById("wmp-close");
+    
+      minimizeBtn.addEventListener("click", () => {
+        const isMinimized = player.classList.toggle("minimized");
+        minimizeBtn.textContent = isMinimized ? "▢" : "_";
+      });
+    
+      closeBtn.addEventListener("click", () => {
+        player.classList.add("closed");
+      });
+    
+      mini.addEventListener("click", () => {
+        player.classList.remove("closed");
+        player.classList.remove("minimized");
+        minimizeBtn.textContent = "_";
+      });
+    
+    });
+    </script>
+    
 
 
 </body>

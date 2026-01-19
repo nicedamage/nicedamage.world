@@ -4,8 +4,24 @@
     padding: 0;
   }
 
+  @font-face {
+    font-family: "bianzhidai pearl";
+    src:
+      url("/fonts/bianzhidai_noBG-Pearl.otf") format("otf");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
 
-  
+  @font-face {
+    font-family: "bianzhidai cube";
+    src: url("/fonts/bianzhidai_noBG-Cube.otf") format("otf");
+  }
+
+  header {
+    text-align: center;
+  }
+
   /* Body + overall page */
   html, body {
     background-image: url("blue035.jpg");
@@ -17,11 +33,13 @@
 
   main {
    height: 85vmin;
+   margin-left: 20px;
   }
   
   /* Headings */
   h1, h2, h3 {
     letter-spacing: -0.02em;
+
   }
 
   h1 {
@@ -77,9 +95,15 @@
   }
 
   .felt-quote {
-    transform: scale(250%) translateX(20px) translateY(40px);
+    transform: scale(200%) translateX(20px) translateY(40px);
     z-index:0;
     position: absolute;
+  }
+
+  .heart-beat {
+    position: absolute; 
+    scale: 30%; 
+    transform: translatex(-140px) translatey(-130px);
   }
   
   /* Lists - remove bullets */
@@ -101,12 +125,18 @@
     text-align: center;
   }
 
+  small{
+    box-shadow: inset 0 -2em 0 0 yellow;
+    transform: translateY(0.8em);
+    line-height: 1;
+  }
+
 /* ===== Floating Player ===== */
 #music-player {
   position: fixed;
   top: 60px;
   right: 30px;
-  width: 300px;
+  width: 320px;
   background:
     linear-gradient(
       to bottom,
@@ -116,7 +146,7 @@
     );
   border-radius: 18px;
   border: outset 1px;
-  padding: 12px;
+  padding: 10px;
   box-shadow:
     0 10px 25px rgba(0,0,0,0.35),
     inset 0 1px 0 rgba(255,255,255,0.9),
@@ -129,10 +159,94 @@
 /* Header */
 .wmp-header {
   text-transform: lowercase;
-  margin-bottom: 6px;
   padding-left: 4px;
 }
 
+/* Title bar */
+.wmp-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.35),
+    rgba(0, 0, 255, 0.55)
+  );
+  border: 1px inset rgba(0,0,0,0.35);
+  border-radius: 12px;
+  padding: 6px 8px;
+  margin: -4px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.6),
+    0 3px 8px rgba(0,0,0,0.35);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  position: relative;
+  margin-bottom: 6px;
+}
+
+
+.wmp-titlebar::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.5), transparent 55%);
+  animation: wmpBubble 4s ease-in-out infinite;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.wmp-titlebar::after {
+  pointer-events: none;
+}
+
+@keyframes wmpBubble {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(10px, 6px) scale(1.05); }
+}
+
+
+.wmp-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 2px;
+  border: 2px rgba(40, 39, 45, 0.629) outset;
+  background: rgba(255, 144, 238, 0.461);
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  pointer-events: auto;
+  position: relative;
+  z-index: 10;
+}
+
+.wmp-btn:hover {
+  background: blue;
+  /* background: rgba(0, 0, 45, 0.608); */
+}
+
+.wmp-btn:active {
+  transform: scale(1.05);
+}
+
+/* Minimized style */
+#wmp-minimized {
+  position: fixed;
+  top: 60px;
+  right: 30px;
+  width: 120px;
+  height: 38px;
+  border-radius: 2px;
+  background: rgba(87, 187, 179, 0.6);
+  border: 1px solid rgba(0,0,0,0.25);
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 9999;
+}
 
 /* ===== Tie-Dye Visualizer ===== */
 .wmp-visualizer {
@@ -156,7 +270,7 @@
 
 /* ===== Volume Slider Styling ===== */
 #volume {
-  width: 120px;
+  width: 140px;
   margin-left: 10px;
   accent-color:rgba(255, 147, 248, 0.746);
   cursor: pointer;
@@ -184,7 +298,6 @@
   cursor: pointer;
   margin-top: -5px;
 }
-
 
 /* Firefox */
 #volume::-moz-range-track {
@@ -221,7 +334,8 @@
 }
 
 .wmp-controls button:hover {
-  background: rgba(0, 0, 45, 0.608);;
+  background: blue;
+  /* background: rgba(0, 0, 45, 0.608); */
   transform: scale(.97);
 }
 
@@ -230,23 +344,19 @@
   background: rgb(0, 255, 229);
 }
 
-
 .wmp-controls input[type="range"] {
   width: 60px;
 }
 
-
 .wmp-song-title {
-  color: #0f2a4d;
-  margin-rgb(11, 24, 40)x;
+  margin:3px;
   padding-left: 4px;
   text-transform: none;
 }
 
 .wmp-header {
   font-size: 1rem;
-  font-weight: bold;
-  color: #0f2a4d;
+  color: rgb(255, 176, 247);
   text-transform: lowercase;
   margin-bottom: 6px;
   padding-left: 4px;
@@ -266,6 +376,92 @@
   animation: marquee 10s linear infinite;
 }
 
+.wmp-title {
+  font-family: "bianzhidai_nobg pearl";
+  font-weight: regular;
+  letter-spacing: -1px;
+  text-align: left;
+  margin-right: auto; /* THIS pushes buttons to the right */
+}
+
+
+/* Make titlebar buttons inherit player button look */
+.wmp-btn {
+  all: unset;
+}
+
+.wmp-btn {
+  width: 28px;
+  height: 28px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Reuse existing button styles */
+.wmp-btn {
+  border-radius: 1px;
+  border: 2px rgba(40, 39, 45, 0.629) outset;
+  background: rgba(255, 144, 238, 0.461);
+  color: white;
+  cursor: pointer;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
+}
+
+.wmp-btn:hover {
+  background: blue;
+  /* background: rgba(0, 0, 45, 0.608); */
+  transform: scale(.97);
+}
+
+.wmp-btn:active {
+  transform: scale(1.05);
+  background: rgb(0, 255, 229);
+}
+
+
+/* minimized state */
+#music-player.minimized .wmp-visualizer,
+#music-player.minimized .wmp-controls {
+  display: none;
+}
+
+/* closed state */
+#music-player.closed {
+  display: none;
+}
+
+#music-player-mini {
+  color:white;
+  display: none;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(243, 185, 255, 0.723);
+  border: 2px rgba(40, 39, 45, 0.629) outset;
+  cursor: pointer;
+  position: fixed;
+  top: 75px;
+  right: 45px;        /* ← move to left */
+  left: auto;
+}
+
+/* THIS is the key */
+#music-player.closed + #music-player-mini {
+  display: flex;
+}
+
+
+#music-player-mini:hover {
+  background: blue;
+}
+
+#music-player-mini:active {
+  transform: scale(1.05);
+  background: rgb(0, 255, 229);
+}
+
+
 @keyframes marquee {
   from {
     transform: translateX(0);
@@ -275,15 +471,65 @@
   }
 }
 
-
-/* ===== Media Queries ===== */
-@media (max-width: 600px) {
-  #music-player {
-    display: none;
-  }
-}
-
 .banner {
   display: inline-block;
   width: 24.7%;
 }
+
+/* ===== Media Queries ===== */
+@media (max-width: 1024px) {
+  #music-player {
+    display: none;
+  }
+  h1 {
+    font-size: 55px;
+  }
+
+  .banner {
+    width: 100%;
+    display: inline-block;
+    justify-content: center;
+    display: none;
+    }
+  
+    .banner-mobile {
+      width: 100%;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+  h1 {
+    font-size: 3em;
+  }
+
+  nav {
+    font-size: 2em;
+  }
+
+  main {
+    height: 95vmin;
+   }
+
+   .heart-beat{
+   scale: 40%;
+   transform: translatex(-55px) translatey(-90px);
+   }
+
+  .banner {
+  width: 100%;
+  display: inline-block;
+  justify-content: center;
+  display: none;
+  }
+
+  .banner-mobile {
+    width: 100%;
+  }
+
+  #music-player {
+    display: none;
+  }
+  }
