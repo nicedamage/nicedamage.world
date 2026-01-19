@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
   }
+  
 
   @font-face {
     font-family: "bianzhidai pearl";
@@ -498,22 +499,29 @@
 
 }
 
+@media (max-width: 768px) {
 
-@media (max-width: 600px) {
-
-  h1 {
-    font-size: 3em;
+  * {
+ overflow: hidden;
   }
 
-  nav {
-    font-size: 2em;
+  html, body {
+
   }
 
   main {
-    height: 95vmin;
-   }
+    height: 85vmin;
+  }
 
-   .heart-beat{
+  h1 {
+  
+  }
+
+  nav {
+
+  }
+
+  .heart-beat{
    scale: 40%;
    transform: translatex(-55px) translatey(-90px);
    }
@@ -529,7 +537,40 @@
     width: 100%;
   }
 
-  #music-player {
+  .music-player-mini {
     display: none;
   }
+
+  #music-player {
+    position: fixed;
+    left: 8px !important;
+    right: 8px !important;
+    bottom: 8px;
+    top: auto;
+
+    width: auto;
+    max-width: none;
+
+    border-radius: 16px 16px 10px 10px;
   }
+
+  /* iOS safe area */
+  @supports (padding: env(safe-area-inset-bottom)) {
+    #music-player {
+      bottom: calc(8px + env(safe-area-inset-bottom));
+    }
+  }
+
+
+  .wmp-visualizer {
+    display: none;
+  }
+
+  #music-player.show-visualizer .wmp-visualizer {
+    display: flex;
+  }
+
+
+
+}
+
