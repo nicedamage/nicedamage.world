@@ -263,6 +263,7 @@
     </h1>
     <nav>
       <ul class="list">
+        <li><a href="index.html">★ home</a></li>
         <li><a href="#">★ about</a></li>
         <li><a href="#">★ contact</a></li>
         <li><a href="#">★ zines</a></li>
@@ -274,27 +275,18 @@
 
   <main class="page-center">
     <div class="page-scroll">
-      <h2>hello world!</h2>
-      <br>
-      <p>a warm welcome to the website of myra lintaman, the beating heart behind the creative project that is <a href="about.html">nice damage studio</a>! 
-        may this site exist as a portfolio and place to come and hang out and pay homage to the beauty that is the open source web! the web is ours! let us reclaim it.
-        <br>
-        <br>
-        i'd love for you to leave your thoughts, feelings, or a truth from deep in your heart below... <a class="message-board-btn" href="message.html"><img src="./gifs/message-board02.gif" alt=""></a>
-        <br>
-        some other external links below...
-        <br>
-        <br>
-        <a href="instagram.com/nice.damage"> <img src="./gifs/point.gif" alt=""> instagram</a>
-        <br>
-        <a href="substack.com/nicedamageposting"><img src="./gifs/point.gif" alt=""> substack</a>
-        <br>
-        <a href="nicedamage.bigcartel.com"><img src="./gifs/point.gif" alt=""> bigcartel online shop</a>
-        <br>
-        <br>
-      </p> 
-
-      <p>this site was published with love via github on january 11, 2026.</p> 
+        <div class="board">
+            <h1>message board</h1>
+          
+            <form id="postForm" class="message-form">
+              <input id="username" placeholder="username" maxlength="20" />
+              <textarea id="messageText" placeholder="write a message..." required></textarea>
+              <button class="post-btn" type="submit">post</button>
+            </form>
+          
+            <div id="messages" class="messages"></div>
+          </div>
+          
       <!-- everything that should scroll goes here -->
     </div>
   </main>
@@ -533,7 +525,103 @@
     
     </script>
     
+<!-- MESSAGE BOARD JS -->
+<script src="script.js">
+    const form = document.getElementById("postForm");
+const messagesDiv = document.getElementById("messages");
 
+let messages = JSON.parse(localStorage.getItem("messages")) || [];
+
+function save() {
+localStorage.setItem("messages", JSON.stringify(messages));
+}
+
+function timeAgo(ts) {
+const diff = Math.floor((Date.now() - ts) / 1000);
+if (diff < 60) return "just now";
+if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
+return new Date(ts).toLocaleDateString();
+}
+
+function renderMessages() {
+messagesDiv.innerHTML = "";
+messages.forEach((msg, i) => {
+messagesDiv.appendChild(renderMessage(msg, i));
+});
+}
+
+function renderMessage(msg, index, parentIndex = null) {
+const el = document.createElement("div");
+el.className = "message";
+
+el.innerHTML = `
+<div class="meta">
+<strong>${msg.user}</strong>
+<span>${timeAgo(msg.time)}</span>
+</div>
+<p>${msg.text}</p>
+<div class="controls">
+<button class="reply">reply</button>
+<button class="delete">delete</button>
+</div>
+`;
+
+el.querySelector(".delete").onclick = () => {
+if (parentIndex !== null) {
+messages[parentIndex].replies.splice(index, 1);
+} else {
+messages.splice(index, 1);
+}
+save();
+renderMessages();
+};
+
+el.querySelector(".reply").onclick = () => {
+const text = prompt("Reply:");
+if (!text) return;
+
+msg.replies.push({
+user: "Anonymous",
+text,
+time: Date.now(),
+replies: []
+});
+
+save();
+renderMessages();
+};
+
+if (msg.replies.length) {
+const replies = document.createElement("div");
+replies.className = "replies";
+msg.replies.forEach((r, i) => {
+replies.appendChild(renderMessage(r, i, index));
+});
+el.appendChild(replies);
+}
+
+return el;
+}
+
+form.onsubmit = e => {
+e.preventDefault();
+
+messages.unshift({
+user: username.value || "Anonymous",
+text: messageText.value,
+time: Date.now(),
+replies: []
+});
+
+form.reset();
+save();
+renderMessages();
+};
+
+renderMessages();
+
+  </script>
 
 </body>
 
