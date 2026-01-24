@@ -11,183 +11,6 @@
   <meta name="description" content="nicedamage.world!" />
 
 
-  <!-- SPARKLE CURSOR TAIL -->
-  <script type="text/javascript">
-    // <![CDATA[
-
-    var colour = "white";
-    var sparkles = 120;
-
-    /****************************
-    *  Tinkerbell Magic Sparkle *
-    * (c) 2005 mf2fm web-design *
-    *  http://www.mf2fm.com/rv  *
-    * DON'T EDIT BELOW THIS BOX *
-    ****************************/
-    var x = ox = 400;
-    var y = oy = 300;
-    var swide = 800;
-    var shigh = 600;
-    var sleft = sdown = 0;
-    var tiny = new Array();
-    var star = new Array();
-    var starv = new Array();
-    var starx = new Array();
-    var stary = new Array();
-    var tinyx = new Array();
-    var tinyy = new Array();
-    var tinyv = new Array();
-
-    window.onload = function () {
-      if (document.getElementById) {
-        var i, rats, rlef, rdow;
-        for (var i = 0; i < sparkles; i++) {
-          var rats = createDiv(3, 3);
-          rats.style.visibility = "hidden";
-          document.body.appendChild(tiny[i] = rats);
-          starv[i] = 0;
-          tinyv[i] = 0;
-          var rats = createDiv(5, 5);
-          rats.style.backgroundColor = "transparent";
-          rats.style.visibility = "hidden";
-          var rlef = createDiv(1, 5);
-          var rdow = createDiv(5, 1);
-          rats.appendChild(rlef);
-          rats.appendChild(rdow);
-          rlef.style.top = "2px";
-          rlef.style.left = "0px";
-          rdow.style.top = "0px";
-          rdow.style.left = "2px";
-          document.body.appendChild(star[i] = rats);
-        }
-        set_width();
-        sparkle();
-      }
-    }
-
-    function sparkle() {
-      var c;
-      if (x != ox || y != oy) {
-        ox = x;
-        oy = y;
-        for (c = 0; c < sparkles; c++) if (!starv[c]) {
-          star[c].style.left = (starx[c] = x) + "px";
-          star[c].style.top = (stary[c] = y) + "px";
-          star[c].style.clip = "rect(0px, 5px, 5px, 0px)";
-          star[c].style.visibility = "visible";
-          starv[c] = 50;
-          break;
-        }
-      }
-      for (c = 0; c < sparkles; c++) {
-        if (starv[c]) update_star(c);
-        if (tinyv[c]) update_tiny(c);
-      }
-      setTimeout("sparkle()", 40);
-    }
-
-    function update_star(i) {
-      if (--starv[i] == 25) star[i].style.clip = "rect(1px, 4px, 4px, 1px)";
-      if (starv[i]) {
-        stary[i] += 1 + Math.random() * 3;
-        if (stary[i] < shigh + sdown) {
-          star[i].style.top = stary[i] + "px";
-          starx[i] += (i % 5 - 2) / 5;
-          star[i].style.left = starx[i] + "px";
-        }
-        else {
-          star[i].style.visibility = "hidden";
-          starv[i] = 0;
-          return;
-        }
-      }
-      else {
-        tinyv[i] = 50;
-        tiny[i].style.top = (tinyy[i] = stary[i]) + "px";
-        tiny[i].style.left = (tinyx[i] = starx[i]) + "px";
-        tiny[i].style.width = "2px";
-        tiny[i].style.height = "2px";
-        star[i].style.visibility = "hidden";
-        tiny[i].style.visibility = "visible"
-      }
-    }
-
-    function update_tiny(i) {
-      if (--tinyv[i] == 25) {
-        tiny[i].style.width = "1px";
-        tiny[i].style.height = "1px";
-      }
-      if (tinyv[i]) {
-        tinyy[i] += 1 + Math.random() * 3;
-        if (tinyy[i] < shigh + sdown) {
-          tiny[i].style.top = tinyy[i] + "px";
-          tinyx[i] += (i % 5 - 2) / 5;
-          tiny[i].style.left = tinyx[i] + "px";
-        }
-        else {
-          tiny[i].style.visibility = "hidden";
-          tinyv[i] = 0;
-          return;
-        }
-      }
-      else tiny[i].style.visibility = "hidden";
-    }
-
-    document.onmousemove = mouse;
-    function mouse(e) {
-      set_scroll();
-      y = (e) ? e.pageY : event.y + sdown;
-      x = (e) ? e.pageX : event.x + sleft;
-    }
-
-    function set_scroll() {
-      if (typeof (self.pageYOffset) == "number") {
-        sdown = self.pageYOffset;
-        sleft = self.pageXOffset;
-      }
-      else if (document.body.scrollTop || document.body.scrollLeft) {
-        sdown = document.body.scrollTop;
-        sleft = document.body.scrollLeft;
-      }
-      else if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
-        sleft = document.documentElement.scrollLeft;
-        sdown = document.documentElement.scrollTop;
-      }
-      else {
-        sdown = 0;
-        sleft = 0;
-      }
-    }
-
-    window.onresize = set_width;
-    function set_width() {
-      if (typeof (self.innerWidth) == "number") {
-        swide = self.innerWidth;
-        shigh = self.innerHeight;
-      }
-      else if (document.documentElement && document.documentElement.clientWidth) {
-        swide = document.documentElement.clientWidth;
-        shigh = document.documentElement.clientHeight;
-      }
-      else if (document.body.clientWidth) {
-        swide = document.body.clientWidth;
-        shigh = document.body.clientHeight;
-      }
-    }
-
-    function createDiv(height, width) {
-  var div = document.createElement("div");
-  div.style.position = "absolute";      // keep absolute for smooth motion
-  div.style.height = height + "px";
-  div.style.width = width + "px";
-  div.style.overflow = "hidden";
-  div.style.backgroundColor = colour;
-  div.style.zIndex = 100000;            // higher than player
-  div.style.pointerEvents = "none";     // don’t block clicks
-  return div;
-}
-    // ]]>
-  </script>
 </head>
 
 <body>
@@ -275,10 +98,11 @@
   <main class="page-center">
     <div class="page-scroll">
       <h2>hello world!</h2>
+      <p>come back soon! i'm workin on it!</p>
       <br><br>
       <img src="./gifs/WIP.gif" alt="" style="transform: scale(2) translatex(90px); padding: 35px;">
       <br><br>
-      <p>come back soon! i'm workin on it!</p>
+      <img src="WORKING-ON-IT.png" alt="">
 <br><br>
       <!-- <p>a warm welcome to the website of myra lintaman, the beating heart behind the creative project that is <a href="about.html">nice damage studio</a>! 
         may this site exist as a portfolio and place to come and hang out and pay homage to the beauty that is the open source web! the web is ours! let us reclaim it.
@@ -303,6 +127,30 @@
   </main>
 </div>
 
+<!-- MESSAGE BOARD -->
+<div id="message-board" class="minimized">
+  <div class="wmp-titlebar">
+    <div class="wmp-title">message board <3</div>
+    <button id="mb-minimize" class="wmp-btn">▢</button>
+    <button id="mb-close" class="wmp-btn">✕</button>
+  </div>
+
+  <div class="mb-body">
+    <div id="messages" class="mb-messages"></div>
+
+    <form id="postForm" class="mb-form">
+      <input id="username" placeholder="your name">
+      <textarea id="messageText" placeholder="leave a message..."></textarea>
+      <button type="submit">post</button>
+    </form>
+  </div>
+</div>
+
+<!-- Tiny reopen button when closed -->
+<div id="message-board-mini"><img src="./gifs/message-board02.gif" alt=""></div>
+
+
+
 <!-- MEME OF THE DAY??? -->
 
 
@@ -316,228 +164,9 @@
     <br>
     <small> this site was published with love via github on january 11, 2026. <br> © 2026</small>
   </footer>
-
-  <!-- MUSIC PLAYER JS -->
-  <script>
-    window.addEventListener("DOMContentLoaded", () => {
-    
-      // ===== AUDIO + PLAYER SETUP =====
-      const player = document.getElementById("music-player");
-      const audio = document.getElementById("audio");
-      const playBtn = document.getElementById("play");
-      const nextBtn = document.getElementById("next");
-      const prevBtn = document.getElementById("prev");
-      const volume = document.getElementById("volume");
-      const trackTitle = document.getElementById("track-title");
-    
-      const canvas = document.getElementById("visualizer-canvas");
-      const ctx = canvas.getContext("2d");
-    
-      if (canvas) {
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-      }
-    
-      // ===== PLAYLIST =====
-      const playlist = [
-        { title: "Aphex Twin – Windowlicker", src: "windowlicker.mp3" },
-        { title: "Plush Managements Inc. - Mr. Mailman feat. Bea", src: "mr-mailman-feat-bea.mp3" }
-      ];
-    
-      let currentTrack = 0;
-    
-      function loadTrack(index) {
-        audio.src = playlist[index].src;
-        trackTitle.textContent = playlist[index].title;
-      }
-    
-      loadTrack(currentTrack);
-    
-      // ===== AUDIO CONTEXT =====
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      const audioCtx = new AudioContext();
-      const source = audioCtx.createMediaElementSource(audio);
-      const analyser = audioCtx.createAnalyser();
-    
-      analyser.fftSize = 128;
-      const bufferLength = analyser.frequencyBinCount;
-      const dataArray = new Uint8Array(bufferLength);
-    
-      source.connect(analyser);
-      analyser.connect(audioCtx.destination);
-    
-      // ===== CONTROLS =====
-      playBtn.addEventListener("click", () => {
-        if (audio.paused) {
-          audioCtx.resume();
-          audio.play();
-          playBtn.textContent = "❚❚";
-          renderVisualizer();
-        } else {
-          audio.pause();
-          playBtn.textContent = "▶";
-        }
-      });
-    
-      nextBtn.addEventListener("click", () => {
-        currentTrack = (currentTrack + 1) % playlist.length;
-        loadTrack(currentTrack);
-        audio.play();
-      });
-    
-      prevBtn.addEventListener("click", () => {
-        currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
-        loadTrack(currentTrack);
-        audio.play();
-      });
-    
-      volume.addEventListener("input", () => {
-        audio.volume = volume.value;
-      });
-    
-      audio.addEventListener("ended", () => {
-        currentTrack = (currentTrack + 1) % playlist.length;
-        loadTrack(currentTrack);
-        audio.play();
-      });
-    
-      // ------- VISUALIZER -------
-      let time = 0;
-      let energySmoothed = 0;
-    
-      function renderVisualizer() {
-        requestAnimationFrame(renderVisualizer);
-        analyser.getByteFrequencyData(dataArray);
-    
-        ctx.fillStyle = "rgba(0,0,0,0.22)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-        const cx = canvas.width / 2;
-        const cy = canvas.height / 2;
-    
-        let low = 0, mid = 0, high = 0;
-    
-        for (let i = 0; i < bufferLength; i++) {
-          const v = dataArray[i];
-          if (i < bufferLength * 0.25) low += v;
-          else if (i < bufferLength * 0.6) mid += v;
-          else high += v;
-        }
-    
-        low /= bufferLength * 0.25;
-        mid /= bufferLength * 0.35;
-        high /= bufferLength * 0.4;
-    
-        const energy = (low * 0.5 + mid * 0.35 + high * 0.15) / 255;
-        energySmoothed = energySmoothed * 0.9 + energy * 0.1;
-    
-        if (energySmoothed < 0.015) return;
-    
-        const turbulence = low * 0.004;
-        const flowSpeed = mid * 0.0008;
-        const shimmer = high * 0.002;
-    
-        time += 0.6 + flowSpeed * 120;
-    
-        const pointCount = 70;
-        const baseRadius = Math.min(canvas.width, canvas.height) * 0.18;
-    
-        ctx.beginPath();
-    
-        for (let i = 0; i <= pointCount; i++) {
-          const a = (i / pointCount) * Math.PI * 2;
-          const field =
-            Math.sin(a * 3 + time * 0.01) +
-            Math.sin(a * 7 - time * 0.008) * 0.6 +
-            Math.sin(time * 0.04 + i) * turbulence * 100;
-    
-          const r = baseRadius + field * 1 * energySmoothed;
-          const x = cx + Math.cos(a) * r;
-          const y = cy + Math.sin(a) * r;
-    
-          if (i === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-    
-        const palette = [
-          { h: 285, s: 70, l: 55 },
-          { h: 215, s: 65, l: 55 },
-          { h: 185, s: 60, l: 55 },
-          { h: 245, s: 60, l: 55 }
-        ];
-    
-        const drift = (Math.sin(time * 0.0015) + 1) / 2;
-        const idx = Math.floor(drift * (palette.length - 1));
-        const c1 = palette[idx];
-    
-        const hue = 220 + Math.sin(time * 0.0008) * 15;
-        ctx.strokeStyle = `hsla(${hue}, 60%, 60%, ${0.35 + energySmoothed * 0.2})`;
-        ctx.lineWidth = 1.6 + energySmoothed * 2;
-        ctx.shadowColor = `hsla(${hue}, 70%, 65%, 0.6)`;
-        ctx.stroke();
-    
-        const thickness = 1.4 + energySmoothed * 2.2;
-        ctx.strokeStyle = `hsla(${hue}, ${c1.s}%, ${c1.l}%, ${0.35 + energySmoothed * 0.25})`;
-        ctx.lineWidth = thickness;
-        ctx.shadowColor = `hsla(${hue}, 80%, 60%, 0.5)`;
-        ctx.stroke();
-      }
-    
-      // ===== DRAGGABLE PLAYER =====
-      let isDragging = false;
-      let offsetX = 0;
-      let offsetY = 0;
-    
-      player.style.position = "fixed";
-      player.style.cursor = "grab";
-    
-      player.addEventListener("mousedown", (e) => {
-        isDragging = true;
-        offsetX = e.clientX - player.offsetLeft;
-        offsetY = e.clientY - player.offsetTop;
-        player.style.cursor = "grabbing";
-      });
-    
-      document.addEventListener("mousemove", (e) => {
-        if (!isDragging) return;
-        player.style.left = e.clientX - offsetX + "px";
-        player.style.top = e.clientY - offsetY + "px";
-      });
-    
-      document.addEventListener("mouseup", () => {
-        isDragging = false;
-        player.style.cursor = "grab";
-      });
-    
-      // ===== MINIMIZE / CLOSE =====
-      const mini = document.getElementById("music-player-mini");
-      const minimizeBtn = document.getElementById("wmp-minimize");
-      const closeBtn = document.getElementById("wmp-close");
-    
-      minimizeBtn.addEventListener("click", () => {
-        const isMinimized = player.classList.toggle("minimized");
-        minimizeBtn.textContent = isMinimized ? "▢" : "_";
-      });
-    
-      closeBtn.addEventListener("click", () => {
-        player.classList.add("closed");
-      });
-    
-      mini.addEventListener("click", () => {
-        player.classList.remove("closed");
-        player.classList.remove("minimized");
-        minimizeBtn.textContent = "_";
-      });
-
-      
-    
-    });
-
-    
-    </script>
     
 
-
+  <script src="script.js"></script>
 </body>
 
 </html>

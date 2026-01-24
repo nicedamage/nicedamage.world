@@ -1,10 +1,1 @@
-[
-    {
-      "id": "abc123",
-      "user": "Anonymous",
-      "text": "hello",
-      "time": 1700000000,
-      "token": "secret-delete-token"
-    }
-  ]
-  
+[]

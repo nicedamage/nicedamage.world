@@ -77,81 +77,6 @@
       border:  rgb(255, 102, 0) 12px groove;
   }
 
-  .board {
-    width: 100%;
-    max-width: 720px;
-    border-radius: 16px;
-    padding: 24px;
-  }
-
-  .message-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 24px;
-
-  }
-
-  input, textarea {
-    color: rgb(0, 0, 0);
-    
-  }
-
-  .time {
-    cursor: help;
-    opacity: 0.7;
-    font-size: 12px;
-  }
-
-  .post-btn {
-    width: 80px;
-    height: 35px;
-    border-radius: 2px;
-    border: 2px rgba(40, 39, 45, 0.629) outset;
-    background: rgba(255, 144, 238, 0.461);
-    color: #fff;
-    cursor: pointer;
-    font-size: 16px;
-    line-height: 1;
-    pointer-events: auto;
-    position: relative;
-    z-index: 10;
-  }
-  
-  .post-btn:hover {
-    background: #5555dd;
-  }  
-
-
-  .messages {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  
-  .message {
-    background: grey;
-    padding: 12px;
-  }
-  
-  .meta {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    opacity: 0.7;
-  }
-  
-
-  
-  .replies {
-    margin-top: 10px;
-    padding-left: 16px;
-    border-left: 2px solid #333;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-    
 
   .gif-rail {
     position: fixed;
@@ -652,6 +577,136 @@
   display: inline-block;
   width: 24.7%;
 }
+
+/* ===== Message Board (same style as player) ===== */
+#message-board {
+  position: fixed;
+  bottom: 180px;
+  right: 120px;
+  width: 320px;
+  background:
+    linear-gradient(
+      to bottom,
+      #57bbb3af 0%,
+      #57bbb3af 45%,
+      #57bbb3af 100%
+    );
+  border-radius: 18px;
+  border: outset 1px;
+  padding: 10px;
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    inset 0 -2px 4px rgba(0,0,0,0.15);
+  cursor: grab;
+  z-index: 9999;
+}
+
+/* minimized */
+#message-board.minimized {
+  width: 240px;
+  height: 160px;
+  overflow: auto;
+  right: 120px;
+}
+
+/* closed state */
+#message-board.closed {
+  display: none;
+}
+
+#message-board.minimized .mb-form {
+  display: none;
+}
+
+#message-board.minimized .mb-messages {
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+/* full size */
+#message-board.full {
+  width: 350px;
+  height: 350px;
+  bottom: 130px;
+}
+
+#message-board.full .mb-messages {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+/* message list */
+.mb-messages .message {
+  background: rgba(0,0,0,0.25);
+  margin: 6px 0;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+
+/* form */
+.mb-form input,
+.mb-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.25);
+  background: rgba(0,0,0,0.25);
+  color: white;
+
+  resize: vertical;
+  max-height: 160px;
+  box-sizing: border-box;
+}
+
+/* keep same buttons as player */
+.wmp-btn {
+  all: unset;
+  width: 28px;
+  height: 28px;
+  text-align: center;
+  font-size: 14px;
+  border-radius: 1px;
+  border: 2px rgba(40, 39, 45, 0.629) outset;
+  background: rgba(255, 144, 238, 0.461);
+  color: white;
+  cursor: pointer;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
+}
+
+.wmp-btn:hover { background: blue; transform: scale(.97); }
+.wmp-btn:active { transform: scale(1.05); background: rgb(0, 255, 229); }
+
+/* Tiny reopen button */
+#message-board-mini {
+  display: none;
+transform: scale(.75);
+  align-items: center;
+  justify-content: center;
+  background: rgba(243, 185, 255, 0.723);
+  border: 2px rgba(40, 39, 45, 0.629) outset;
+  cursor: pointer;
+  position: fixed;
+  bottom: 120px;
+  right: 100px;
+  z-index: 9999;
+}
+
+#message-board.closed + #message-board-mini {
+  display: flex;
+}
+
+#message-board-mini:hover {
+  background: blue;
+}
+
+#message-board-mini:active {
+  transform: scale(1.05);
+  background: rgb(0, 255, 229);
+}
+
 
 @media (max-width: 768px) {
 

@@ -1,151 +1,496 @@
-const messagesDiv = document.getElementById("messages");
-const form = document.getElementById("postForm");
-const usernameInput = document.getElementById("username");
-const messageInput = document.getElementById("messageText");
+// =========================
+// MESSAGE BOARD + MEDIA PLAYER + SPARKLE CURSOR
+// =========================
 
-// tokens that belong to THIS browser
-const myTokens = JSON.parse(localStorage.getItem("myTokens")) || [];
+window.addEventListener("DOMContentLoaded", () => {
 
-/* -------------------------
-   helpers
-------------------------- */
+  /* -------------------------
+     MESSAGE BOARD CODE
+  ------------------------- */
+// Only run if the message board exists
+const msgBoard = document.getElementById("message-board");
+const msgMini = document.getElementById("message-board-mini");
 
-function saveTokens() {
-  localStorage.setItem("myTokens", JSON.stringify(myTokens));
-}
+if (msgBoard) {
+  const mbMin = document.getElementById("mb-minimize");
+  const mbClose = document.getElementById("mb-close");
 
-function timeAgo(ts) {
-  const seconds = Math.floor(Date.now() / 1000 - ts);
+  // Draggable
+  let isDragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
 
-  if (seconds < 10) return "just now";
-  if (seconds < 60) return `${seconds}s ago`;
+  msgBoard.style.position = "fixed";
+  msgBoard.style.cursor = "grab";
 
-  const minutes = Math.floor(seconds / 60);
-  if (minutes < 60) return `${minutes}m ago`;
-
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ago`;
-
-  const date = new Date(ts * 1000);
-  return date.toLocaleDateString(undefined, {
-    month: "short",
-    day: "numeric",
-    year: "numeric"
+  msgBoard.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    offsetX = e.clientX - msgBoard.offsetLeft;
+    offsetY = e.clientY - msgBoard.offsetTop;
+    msgBoard.style.cursor = "grabbing";
   });
-}
 
-
-function canDelete(msg) {
-  return myTokens.includes(msg.token);
-}
-
-/* -------------------------
-   fetch + render
-------------------------- */
-
-async function loadMessages() {
-  const res = await fetch("messages.json", { cache: "no-store" });
-  const data = await res.json();
-
-  messagesDiv.innerHTML = "";
-  data.forEach(msg => {
-    messagesDiv.appendChild(renderMessage(msg));
+  document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    msgBoard.style.left = e.clientX - offsetX + "px";
+    msgBoard.style.top = e.clientY - offsetY + "px";
   });
-}
 
-function renderMessage(msg) {
-  const el = document.createElement("div");
-  el.className = "message";
+  document.addEventListener("mouseup", () => {
+    isDragging = false;
+    msgBoard.style.cursor = "grab";
+  });
 
-  el.innerHTML = `
-    <div class="meta">
-      <strong>${msg.user}</strong>
-      <span>${timeAgo(msg.time)}</span>
-    </div>
-    <p>${msg.text}</p>
-  `;
+  // Default state
+  msgBoard.classList.add("minimized");
 
-  if (canDelete(msg)) {
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "delete";
-    deleteBtn.className = "delete";
-    deleteBtn.onclick = () => deleteMessage(msg.id, msg.token);
-    el.appendChild(deleteBtn);
+  // MINIMIZE BUTTON TOGGLE
+  mbMin.addEventListener("click", () => {
+    if (msgBoard.classList.contains("minimized")) {
+      msgBoard.classList.remove("minimized");
+      msgBoard.classList.add("full");
+      mbMin.textContent = "_";
+    } else {
+      msgBoard.classList.remove("full");
+      msgBoard.classList.add("minimized");
+      mbMin.textContent = "▢";
+    }
+  });
+
+  // CLOSE BUTTON
+  mbClose.addEventListener("click", () => {
+    msgBoard.classList.add("closed");
+  });
+
+  // MINI REOPEN BUTTON
+  if (msgMini) {
+    msgMini.addEventListener("click", () => {
+      msgBoard.classList.remove("closed");
+      msgBoard.classList.add("minimized");
+      mbMin.textContent = "▢";
+    });
   }
-
-  return el;
-
-  const exactTime = new Date(msg.time * 1000).toLocaleString();
-
-el.innerHTML = `
-  <div class="meta">
-    <strong>${msg.user}</strong>
-    <span class="time" title="${exactTime}">
-      ${timeAgo(msg.time)}
-    </span>
-  </div>
-  <p>${msg.text}</p>
-`;
-
 }
 
 /* -------------------------
-   posting
+   MESSAGE BOARD STORAGE (Node API)
 ------------------------- */
 
-async function postMessage(user, text) {
-  const token = crypto.randomUUID();
+const messagesContainer = document.getElementById("messages");
+const postForm = document.getElementById("postForm");
+const usernameInput = document.getElementById("username");
+const messageTextInput = document.getElementById("messageText");
 
-  myTokens.push(token);
-  saveTokens();
+async function fetchMessages() {
+  const res = await fetch("/api/messages");
+  return res.json();
+}
 
-  const formData = new FormData();
-  formData.append("user", user);
-  formData.append("text", text);
-  formData.append("token", token);
+async function renderMessages() {
+  const messages = await fetchMessages();
+  messagesContainer.innerHTML = "";
 
-  await fetch("post.php", {
-    method: "POST",
-    body: formData
+  // show newest first
+  messages.slice().reverse().forEach((msg) => {
+    const msgDiv = document.createElement("div");
+    msgDiv.classList.add("message");
+
+    msgDiv.innerHTML = `
+      <strong>${msg.username}</strong>
+      <p>${msg.text}</p>
+      <span class="timestamp">${new Date(msg.timestamp).toLocaleString()}</span>
+    `;
+
+    messagesContainer.appendChild(msgDiv);
   });
-
-  loadMessages();
 }
 
-/* -------------------------
-   deleting
-------------------------- */
-
-async function deleteMessage(id, token) {
-  const formData = new FormData();
-  formData.append("id", id);
-  formData.append("token", token);
-
-  await fetch("delete.php", {
-    method: "POST",
-    body: formData
-  });
-
-  loadMessages();
-}
-
-/* -------------------------
-   form handler
-------------------------- */
-
-form.addEventListener("submit", e => {
+postForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const user = usernameInput.value.trim() || "anonymous";
-  const text = messageInput.value.trim();
+  const username = usernameInput.value.trim();
+  const text = messageTextInput.value.trim();
   if (!text) return;
 
-  postMessage(user, text);
-  form.reset();
+  await fetch("/api/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, text }),
+  });
+
+  messageTextInput.value = "";
+  renderMessages();
 });
 
-/* -------------------------
-   init
-------------------------- */
+// load messages when page loads
+renderMessages();
 
-loadMessages();
+
+
+
+  /* -------------------------
+     MEDIA PLAYER CODE
+  ------------------------- */
+
+  const player = document.getElementById("music-player");
+  const audio = document.getElementById("audio");
+  const playBtn = document.getElementById("play");
+  const nextBtn = document.getElementById("next");
+  const prevBtn = document.getElementById("prev");
+  const volume = document.getElementById("volume");
+  const trackTitle = document.getElementById("track-title");
+
+  const canvas = document.getElementById("visualizer-canvas");
+  const ctx = canvas.getContext("2d");
+
+  if (canvas) {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+
+  const playlist = [
+    { title: "Aphex Twin – Windowlicker", src: "windowlicker.mp3" },
+    { title: "Plush Managements Inc. - Mr. Mailman feat. Bea", src: "mr-mailman-feat-bea.mp3" }
+  ];
+
+  let currentTrack = 0;
+
+  function loadTrack(index) {
+    audio.src = playlist[index].src;
+    trackTitle.textContent = playlist[index].title;
+  }
+
+  loadTrack(currentTrack);
+
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  const audioCtx = new AudioContext();
+  const source = audioCtx.createMediaElementSource(audio);
+  const analyser = audioCtx.createAnalyser();
+
+  analyser.fftSize = 128;
+  const bufferLength = analyser.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+
+  source.connect(analyser);
+  analyser.connect(audioCtx.destination);
+
+  playBtn.addEventListener("click", () => {
+    if (audio.paused) {
+      audioCtx.resume();
+      audio.play();
+      playBtn.textContent = "❚❚";
+      renderVisualizer();
+    } else {
+      audio.pause();
+      playBtn.textContent = "▶";
+    }
+  });
+
+  nextBtn.addEventListener("click", () => {
+    currentTrack = (currentTrack + 1) % playlist.length;
+    loadTrack(currentTrack);
+    audio.play();
+  });
+
+  prevBtn.addEventListener("click", () => {
+    currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+    loadTrack(currentTrack);
+    audio.play();
+  });
+
+  volume.addEventListener("input", () => {
+    audio.volume = volume.value;
+  });
+
+  audio.addEventListener("ended", () => {
+    currentTrack = (currentTrack + 1) % playlist.length;
+    loadTrack(currentTrack);
+    audio.play();
+  });
+
+  let time = 0;
+  let energySmoothed = 0;
+
+  function renderVisualizer() {
+    requestAnimationFrame(renderVisualizer);
+    analyser.getByteFrequencyData(dataArray);
+
+    ctx.fillStyle = "rgba(0,0,0,0.22)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+
+    let low = 0, mid = 0, high = 0;
+
+    for (let i = 0; i < bufferLength; i++) {
+      const v = dataArray[i];
+      if (i < bufferLength * 0.25) low += v;
+      else if (i < bufferLength * 0.6) mid += v;
+      else high += v;
+    }
+
+    low /= bufferLength * 0.25;
+    mid /= bufferLength * 0.35;
+    high /= bufferLength * 0.4;
+
+    const energy = (low * 0.5 + mid * 0.35 + high * 0.15) / 255;
+    energySmoothed = energySmoothed * 0.9 + energy * 0.1;
+
+    if (energySmoothed < 0.015) return;
+
+    const turbulence = low * 0.004;
+    const flowSpeed = mid * 0.0008;
+    const shimmer = high * 0.002;
+
+    time += 0.6 + flowSpeed * 120;
+
+    const pointCount = 70;
+    const baseRadius = Math.min(canvas.width, canvas.height) * 0.18;
+
+    ctx.beginPath();
+
+    for (let i = 0; i <= pointCount; i++) {
+      const a = (i / pointCount) * Math.PI * 2;
+      const field =
+        Math.sin(a * 3 + time * 0.01) +
+        Math.sin(a * 7 - time * 0.008) * 0.6 +
+        Math.sin(time * 0.04 + i) * turbulence * 100;
+
+      const r = baseRadius + field * 1 * energySmoothed;
+      const x = cx + Math.cos(a) * r;
+      const y = cy + Math.sin(a) * r;
+
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+
+    const hue = 220 + Math.sin(time * 0.0008) * 15;
+    ctx.strokeStyle = `hsla(${hue}, 60%, 60%, ${0.35 + energySmoothed * 0.2})`;
+    ctx.lineWidth = 1.6 + energySmoothed * 2;
+    ctx.shadowColor = `hsla(${hue}, 70%, 65%, 0.6)`;
+    ctx.stroke();
+
+    const thickness = 1.4 + energySmoothed * 2.2;
+    ctx.strokeStyle = `hsla(${hue}, 80%, 60%, ${0.35 + energySmoothed * 0.25})`;
+    ctx.lineWidth = thickness;
+    ctx.shadowColor = `hsla(${hue}, 80%, 60%, 0.5)`;
+    ctx.stroke();
+  }
+
+  // Dragging
+  let isDragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  player.style.position = "fixed";
+  player.style.cursor = "grab";
+
+  player.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    offsetX = e.clientX - player.offsetLeft;
+    offsetY = e.clientY - player.offsetTop;
+    player.style.cursor = "grabbing";
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    player.style.left = e.clientX - offsetX + "px";
+    player.style.top = e.clientY - offsetY + "px";
+  });
+
+  document.addEventListener("mouseup", () => {
+    isDragging = false;
+    player.style.cursor = "grab";
+  });
+
+  // Minimize/close
+  const mini = document.getElementById("music-player-mini");
+  const minimizeBtn = document.getElementById("wmp-minimize");
+  const closeBtn = document.getElementById("wmp-close");
+
+  minimizeBtn.addEventListener("click", () => {
+    const isMinimized = player.classList.toggle("minimized");
+    minimizeBtn.textContent = isMinimized ? "▢" : "_";
+  });
+
+  closeBtn.addEventListener("click", () => {
+    player.classList.add("closed");
+  });
+
+  mini.addEventListener("click", () => {
+    player.classList.remove("closed");
+    player.classList.remove("minimized");
+    minimizeBtn.textContent = "_";
+  });
+
+  /* -------------------------
+     SPARKLE CURSOR CODE
+  ------------------------- */
+
+  var colour = "white";
+  var sparkles = 120;
+
+  var x = ox = 400;
+  var y = oy = 300;
+  var swide = 800;
+  var shigh = 600;
+  var sleft = sdown = 0;
+  var tiny = [];
+  var star = [];
+  var starv = [];
+  var starx = [];
+  var stary = [];
+  var tinyx = [];
+  var tinyy = [];
+  var tinyv = [];
+
+  function createDiv(height, width) {
+    var div = document.createElement("div");
+    div.style.position = "absolute";
+    div.style.height = height + "px";
+    div.style.width = width + "px";
+    div.style.overflow = "hidden";
+    div.style.backgroundColor = colour;
+    div.style.zIndex = 100000;
+    div.style.pointerEvents = "none";
+    return div;
+  }
+
+  function set_width() {
+    if (typeof (self.innerWidth) == "number") {
+      swide = self.innerWidth;
+      shigh = self.innerHeight;
+    }
+    else if (document.documentElement && document.documentElement.clientWidth) {
+      swide = document.documentElement.clientWidth;
+      shigh = document.documentElement.clientHeight;
+    }
+    else if (document.body.clientWidth) {
+      swide = document.body.clientWidth;
+      shigh = document.body.clientHeight;
+    }
+  }
+
+  function set_scroll() {
+    if (typeof (self.pageYOffset) == "number") {
+      sdown = self.pageYOffset;
+      sleft = self.pageXOffset;
+    }
+    else if (document.body.scrollTop || document.body.scrollLeft) {
+      sdown = document.body.scrollTop;
+      sleft = document.body.scrollLeft;
+    }
+    else if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
+      sleft = document.documentElement.scrollLeft;
+      sdown = document.documentElement.scrollTop;
+    }
+    else {
+      sdown = 0;
+      sleft = 0;
+    }
+  }
+
+  function mouse(e) {
+    set_scroll();
+    y = (e) ? e.pageY : event.y + sdown;
+    x = (e) ? e.pageX : event.x + sleft;
+  }
+
+  function sparkle() {
+    var c;
+    if (x != ox || y != oy) {
+      ox = x;
+      oy = y;
+      for (c = 0; c < sparkles; c++) if (!starv[c]) {
+        star[c].style.left = (starx[c] = x) + "px";
+        star[c].style.top = (stary[c] = y) + "px";
+        star[c].style.clip = "rect(0px, 5px, 5px, 0px)";
+        star[c].style.visibility = "visible";
+        starv[c] = 50;
+        break;
+      }
+    }
+    for (c = 0; c < sparkles; c++) {
+      if (starv[c]) update_star(c);
+      if (tinyv[c]) update_tiny(c);
+    }
+    setTimeout(sparkle, 40);
+  }
+
+  function update_star(i) {
+    if (--starv[i] == 25) star[i].style.clip = "rect(1px, 4px, 4px, 1px)";
+    if (starv[i]) {
+      stary[i] += 1 + Math.random() * 3;
+      if (stary[i] < shigh + sdown) {
+        star[i].style.top = stary[i] + "px";
+        starx[i] += (i % 5 - 2) / 5;
+        star[i].style.left = starx[i] + "px";
+      } else {
+        star[i].style.visibility = "hidden";
+        starv[i] = 0;
+        return;
+      }
+    } else {
+      tinyv[i] = 50;
+      tiny[i].style.top = (tinyy[i] = stary[i]) + "px";
+      tiny[i].style.left = (tinyx[i] = starx[i]) + "px";
+      tiny[i].style.width = "2px";
+      tiny[i].style.height = "2px";
+      star[i].style.visibility = "hidden";
+      tiny[i].style.visibility = "visible";
+    }
+  }
+
+  function update_tiny(i) {
+    if (--tinyv[i] == 25) {
+      tiny[i].style.width = "1px";
+      tiny[i].style.height = "1px";
+    }
+    if (tinyv[i]) {
+      tinyy[i] += 1 + Math.random() * 3;
+      if (tinyy[i] < shigh + sdown) {
+        tiny[i].style.top = tinyy[i] + "px";
+        tinyx[i] += (i % 5 - 2) / 5;
+        tiny[i].style.left = tinyx[i] + "px";
+      } else {
+        tiny[i].style.visibility = "hidden";
+        tinyv[i] = 0;
+        return;
+      }
+    } else tiny[i].style.visibility = "hidden";
+  }
+
+  // INIT sparkle
+  for (let i = 0; i < sparkles; i++) {
+    let t = createDiv(3, 3);
+    t.style.visibility = "hidden";
+    document.body.appendChild(tiny[i] = t);
+    starv[i] = 0;
+    tinyv[i] = 0;
+
+    let s = createDiv(5, 5);
+    s.style.backgroundColor = "transparent";
+    s.style.visibility = "hidden";
+
+    let rlef = createDiv(1, 5);
+    let rdow = createDiv(5, 1);
+
+    s.appendChild(rlef);
+    s.appendChild(rdow);
+
+    rlef.style.top = "2px";
+    rlef.style.left = "0px";
+    rdow.style.top = "0px";
+    rdow.style.left = "2px";
+
+    document.body.appendChild(star[i] = s);
+  }
+
+  set_width();
+  sparkle();
+
+  document.onmousemove = mouse;
+  window.onresize = set_width;
+
+});
