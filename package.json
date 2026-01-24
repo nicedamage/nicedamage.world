@@ -1,0 +1,24 @@
+{
+  "name": "nicedamage.world",
+  "version": "1.0.0",
+  "description": "Personal site for nicedamage. Published with GitHub Pages and custom domain nicedamage.world.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicedamage/nicedamage.world.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/nicedamage/nicedamage.world/issues"
+  },
+  "homepage": "https://github.com/nicedamage/nicedamage.world#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
