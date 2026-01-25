@@ -6,40 +6,68 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
+/* -------------------------
+   MIDDLEWARE
+------------------------- */
 app.use(cors());
-app.use(express.static(__dirname));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-
+/* -------------------------
+   DATA FILE
+------------------------- */
 const DATA_PATH = path.join(__dirname, "messages.json");
 
 if (!fs.existsSync(DATA_PATH)) {
   fs.writeFileSync(DATA_PATH, JSON.stringify([]));
 }
 
+/* -------------------------
+   ROUTES
+------------------------- */
+
+// GET all messages
 app.get("/api/messages", (req, res) => {
-  const messages = JSON.parse(fs.readFileSync(DATA_PATH));
-  res.json(messages);
+  try {
+    const messages = JSON.parse(fs.readFileSync(DATA_PATH, "utf8"));
+    res.json(messages);
+  } catch (err) {
+    console.error("READ ERROR:", err);
+    res.status(500).json({ error: "Failed to read messages." });
+  }
 });
 
+// POST a new message
 app.post("/api/messages", (req, res) => {
+  console.log("POST BODY:", req.body);
+
   const { username, text } = req.body;
 
   if (!text || text.trim() === "") {
     return res.status(400).json({ error: "Message cannot be empty." });
   }
 
-  const messages = JSON.parse(fs.readFileSync(DATA_PATH));
-  messages.push({
-    username: username || "anonymous",
-    text,
-    timestamp: Date.now(),
-  });
+  try {
+    const messages = JSON.parse(fs.readFileSync(DATA_PATH, "utf8"));
 
-  fs.writeFileSync(DATA_PATH, JSON.stringify(messages, null, 2));
-  res.status(201).json({ success: true });
+    messages.push({
+      username: username || "anonymous",
+      text,
+      timestamp: Date.now(),
+    });
+
+    fs.writeFileSync(DATA_PATH, JSON.stringify(messages, null, 2));
+
+    res.status(201).json({ success: true });
+  } catch (err) {
+    console.error("WRITE ERROR:", err);
+    res.status(500).json({ error: "Failed to save message." });
+  }
 });
 
+/* -------------------------
+   START SERVER
+------------------------- */
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
