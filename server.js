@@ -1,15 +1,15 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(cors());
 app.use(express.static(__dirname));
 
-const cors = require("cors");
-app.use(cors());
 
 const DATA_PATH = path.join(__dirname, "messages.json");
 
