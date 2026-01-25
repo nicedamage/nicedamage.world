@@ -8,6 +8,9 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static(__dirname));
 
+const cors = require("cors");
+app.use(cors());
+
 const DATA_PATH = path.join(__dirname, "messages.json");
 
 if (!fs.existsSync(DATA_PATH)) {
