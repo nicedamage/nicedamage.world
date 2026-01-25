@@ -37,33 +37,33 @@ app.get("/api/messages", (req, res) => {
   }
 });
 
-// POST a new message
-app.post("/api/messages", (req, res) => {
+// POST a new messageapp.post("/api/messages", (req, res) => {
   console.log("POST BODY:", req.body);
 
   const { username, text } = req.body;
 
+  //  empty message check
   if (!text || text.trim() === "") {
     return res.status(400).json({ error: "Message cannot be empty." });
   }
 
-  try {
-    const messages = JSON.parse(fs.readFileSync(DATA_PATH, "utf8"));
-
-    messages.push({
-      username: username || "anonymous",
-      text,
-      timestamp: Date.now(),
-    });
-
-    fs.writeFileSync(DATA_PATH, JSON.stringify(messages, null, 2));
-
-    res.status(201).json({ success: true });
-  } catch (err) {
-    console.error("WRITE ERROR:", err);
-    res.status(500).json({ error: "Failed to save message." });
+  //  message length cap (ADD THIS)
+  if (text.length > 300) {
+    return res.status(400).json({ error: "Message too long." });
   }
-});
+
+  const messages = JSON.parse(fs.readFileSync(DATA_PATH, "utf8"));
+
+  messages.push({
+    username: username || "anonymous",
+    text,
+    timestamp: Date.now(),
+  });
+
+  fs.writeFileSync(DATA_PATH, JSON.stringify(messages, null, 2));
+
+  res.status(201).json({ success: true });
+
 
 /* -------------------------
    START SERVER
