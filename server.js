@@ -1,73 +1,68 @@
 const express = require("express");
-const fs = require("fs");
+const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
 const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-/* -------------------------
-   MIDDLEWARE
-------------------------- */
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-/* -------------------------
-   DATA FILE
-------------------------- */
-const DATA_PATH = path.join(__dirname, "messages.json");
+// DATABASE SETUP
+const DB_PATH = path.join(__dirname, "messages.db");
+const db = new sqlite3.Database(DB_PATH);
 
-if (!fs.existsSync(DATA_PATH)) {
-  fs.writeFileSync(DATA_PATH, JSON.stringify([]));
-}
-
-/* -------------------------
-   ROUTES
-------------------------- */
-
-// GET all messages
-app.get("/api/messages", (req, res) => {
-  try {
-    const messages = JSON.parse(fs.readFileSync(DATA_PATH, "utf8"));
-    res.json(messages);
-  } catch (err) {
-    console.error("READ ERROR:", err);
-    res.status(500).json({ error: "Failed to read messages." });
-  }
+// Create table if it doesn't exist
+db.serialize(() => {
+  db.run(`
+    CREATE TABLE IF NOT EXISTS messages (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT,
+      text TEXT NOT NULL,
+      timestamp INTEGER NOT NULL
+    )
+  `);
 });
 
-// POST a new messageapp.post("/api/messages", (req, res) => {
-  console.log("POST BODY:", req.body);
+// GET messages
+app.get("/api/messages", (req, res) => {
+  db.all("SELECT * FROM messages ORDER BY timestamp ASC", (err, rows) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Failed to fetch messages." });
+    }
+    res.json(rows);
+  });
+});
 
+// POST message
+app.post("/api/messages", (req, res) => {
   const { username, text } = req.body;
 
-  //  empty message check
   if (!text || text.trim() === "") {
     return res.status(400).json({ error: "Message cannot be empty." });
   }
 
-  //  message length cap (ADD THIS)
   if (text.length > 300) {
     return res.status(400).json({ error: "Message too long." });
   }
 
-  const messages = JSON.parse(fs.readFileSync(DATA_PATH, "utf8"));
+  const timestamp = Date.now();
+  db.run(
+    "INSERT INTO messages (username, text, timestamp) VALUES (?, ?, ?)",
+    [username || "anonymous", text, timestamp],
+    function (err) {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Failed to save message." });
+      }
+      res.status(201).json({ success: true, id: this.lastID });
+    }
+  );
+});
 
-  messages.push({
-    username: username || "anonymous",
-    text,
-    timestamp: Date.now(),
-  });
-
-  fs.writeFileSync(DATA_PATH, JSON.stringify(messages, null, 2));
-
-  res.status(201).json({ success: true });
-
-
-/* -------------------------
-   START SERVER
-------------------------- */
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
