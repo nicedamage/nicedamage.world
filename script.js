@@ -82,7 +82,7 @@ const usernameInput = document.getElementById("username");
 const messageTextInput = document.getElementById("messageText");
 
 async function fetchMessages() {
-  const res = await fetch("/api/messages");
+  const res = await fetch("https://nicedamage-world.onrender.com/api/messages");
   return res.json();
 }
 
@@ -112,7 +112,7 @@ postForm.addEventListener("submit", async (e) => {
   const text = messageTextInput.value.trim();
   if (!text) return;
 
-  await fetch("/api/messages", {
+  await fetch("https://nicedamage-world.onrender.com/api/messages", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, text }),
