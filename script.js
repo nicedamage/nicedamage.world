@@ -118,12 +118,13 @@ postForm.addEventListener("submit", async (e) => {
     body: JSON.stringify({ username, text }),
   });
 
-  messageTextInput.value = "";
+  postForm.reset();
   renderMessages();
 });
 
 // load messages when page loads
 renderMessages();
+setInterval(renderMessages, 5000);
 
 
 
