@@ -14,6 +14,7 @@
 </head>
 
 <body>
+  <div id="mb-overlay"></div>
   <header>
     <img class="banner-mobile" src="./gifs/star-banner.gif" alt="">
     <img class="banner" src="./gifs/star-banner.gif" alt="">
@@ -100,9 +101,9 @@
       <h2>hello world!</h2>
       <p>come back soon! i'm workin on it!</p>
       <br><br>
-      <img src="./gifs/WIP.gif" alt="" style="transform: scale(2) translatex(90px); padding: 35px;">
+      <img class="file" src="./gifs/WIP.gif" alt="" style="transform: scale(2) translatex(90px); padding: 35px;">
       <br><br>
-      <img src="WORKING-ON-IT.png" alt="">
+      <img class="working-on-it" src="WORKING-ON-IT.png" alt="">
 <br><br>
       <!-- <p>a warm welcome to the website of myra lintaman, the beating heart behind the creative project that is <a href="about.html">nice damage studio</a>! 
         may this site exist as a portfolio and place to come and hang out and pay homage to the beauty that is the open source web! the web is ours! let us reclaim it.
@@ -138,11 +139,17 @@
   <div class="mb-body">
     <div id="messages" class="mb-messages"></div>
 
-    <form id="postForm" class="mb-form">
-      <input id="username" placeholder="your name">
-      <textarea id="messageText" placeholder="leave a message..."></textarea>
-      <button type="submit">post</button>
-    </form>
+<!-- MAXIMIZED FORM -->
+<form id="postForm" class="mb-form">
+  <input id="username" placeholder="your name">
+  <textarea id="messageText" placeholder="leave a message..."></textarea>
+  <button type="submit">post</button>
+
+  <div id="message-error" class="message-error"></div>
+</form>
+
+<!-- MINIMIZED "LEAVE A COMMENT" BUTTON -->
+<button id="mb-open" class="mb-open">leave a comment</button>
   </div>
 </div>
 

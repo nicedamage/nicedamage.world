@@ -3,48 +3,37 @@
 // =========================
 
 window.addEventListener("DOMContentLoaded", () => {
+/* -------------------------
+   MESSAGE BOARD (DESKTOP + MOBILE)
+------------------------- */
 
-  /* -------------------------
-     MESSAGE BOARD CODE
-  ------------------------- */
-// Only run if the message board exists
 const msgBoard = document.getElementById("message-board");
-const msgMini = document.getElementById("message-board-mini");
+const msgMini  = document.getElementById("message-board-mini");
+const mbMin    = document.getElementById("mb-minimize");
+const mbClose  = document.getElementById("mb-close");
+const mbOpen   = document.getElementById("mb-open"); // "leave a comment"
+
+const isMobile = () => window.matchMedia("(max-width: 600px)").matches;
 
 if (msgBoard) {
-  const mbMin = document.getElementById("mb-minimize");
-  const mbClose = document.getElementById("mb-close");
 
-  // Draggable
-  let isDragging = false;
-  let offsetX = 0;
-  let offsetY = 0;
+  // ---------- INITIAL STATE ----------
+  if (isMobile()) {
+    msgBoard.classList.add("closed");
+    msgBoard.classList.remove("minimized", "full");
+  } else {
+    msgBoard.classList.add("minimized");
+    msgBoard.classList.remove("closed", "full");
+  }
 
-  msgBoard.style.position = "fixed";
-  msgBoard.style.cursor = "grab";
-
-  msgBoard.addEventListener("mousedown", (e) => {
-    isDragging = true;
-    offsetX = e.clientX - msgBoard.offsetLeft;
-    offsetY = e.clientY - msgBoard.offsetTop;
-    msgBoard.style.cursor = "grabbing";
+  // ---------- OPEN FULL (from "leave a comment") ----------
+  mbOpen.addEventListener("click", () => {
+    msgBoard.classList.remove("minimized", "closed");
+    msgBoard.classList.add("full");
+    mbMin.textContent = "_";
   });
 
-  document.addEventListener("mousemove", (e) => {
-    if (!isDragging) return;
-    msgBoard.style.left = e.clientX - offsetX + "px";
-    msgBoard.style.top = e.clientY - offsetY + "px";
-  });
-
-  document.addEventListener("mouseup", () => {
-    isDragging = false;
-    msgBoard.style.cursor = "grab";
-  });
-
-  // Default state
-  msgBoard.classList.add("minimized");
-
-  // MINIMIZE BUTTON TOGGLE
+  // ---------- MAXIMIZE / MINIMIZE BUTTON ----------
   mbMin.addEventListener("click", () => {
     if (msgBoard.classList.contains("minimized")) {
       msgBoard.classList.remove("minimized");
@@ -57,20 +46,34 @@ if (msgBoard) {
     }
   });
 
-  // CLOSE BUTTON
+  // ---------- CLOSE ----------
   mbClose.addEventListener("click", () => {
     msgBoard.classList.add("closed");
+    msgBoard.classList.remove("minimized", "full");
+    msgBoard.style.display = "";   // <-- REMOVE display none
   });
 
-  // MINI REOPEN BUTTON
-  if (msgMini) {
-    msgMini.addEventListener("click", () => {
+  // ---------- MINI GIF BUTTON ----------
+  msgMini.addEventListener("click", () => {
+
+    // MOBILE: open full screen
+    if (isMobile()) {
       msgBoard.classList.remove("closed");
-      msgBoard.classList.add("minimized");
-      mbMin.textContent = "▢";
-    });
-  }
+      msgBoard.classList.add("full");
+      mbMin.textContent = "_";
+      return;
+    }
+
+    // DESKTOP: reopen minimized
+    msgBoard.classList.remove("closed", "full");
+    msgBoard.classList.add("minimized");
+    mbMin.textContent = "▢";
+  });
 }
+
+
+
+
 
 /* -------------------------
    MESSAGE BOARD STORAGE (Node API)
@@ -80,10 +83,20 @@ const messagesContainer = document.getElementById("messages");
 const postForm = document.getElementById("postForm");
 const usernameInput = document.getElementById("username");
 const messageTextInput = document.getElementById("messageText");
+const messageError = document.getElementById("message-error");
+
+const API_URL = "https://nicedamage-world.onrender.com/api/messages";
+const MAX_MESSAGE_LENGTH = 300; // change if needed
 
 async function fetchMessages() {
-  const res = await fetch("https://nicedamage-world.onrender.com/api/messages");
-  return res.json();
+  try {
+    const res = await fetch(API_URL);
+    if (!res.ok) throw new Error("Failed to fetch messages");
+    return res.json();
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
 }
 
 async function renderMessages() {
@@ -110,13 +123,28 @@ postForm.addEventListener("submit", async (e) => {
 
   const username = usernameInput.value.trim();
   const text = messageTextInput.value.trim();
+
+  // Clear previous error
+  messageError.textContent = "";
+
+  // Message length limit
+  if (text.length > MAX_MESSAGE_LENGTH) {
+    messageError.textContent = `Message too long. Max ${MAX_MESSAGE_LENGTH} characters.`;
+    return;
+  }
+
   if (!text) return;
 
-  await fetch("https://nicedamage-world.onrender.com/api/messages", {
+  const response = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, text }),
   });
+
+  if (!response.ok) {
+    console.error("Failed to post message");
+    return;
+  }
 
   postForm.reset();
   renderMessages();
@@ -125,6 +153,7 @@ postForm.addEventListener("submit", async (e) => {
 // load messages when page loads
 renderMessages();
 setInterval(renderMessages, 5000);
+
 
 
 
@@ -495,3 +524,5 @@ setInterval(renderMessages, 5000);
   window.onresize = set_width;
 
 });
+
+
