@@ -4,7 +4,8 @@
 
 window.addEventListener("DOMContentLoaded", () => {
 /* -------------------------
-   MESSAGE BOARD (DESKTOP + MOBILE)
+   MESSAGE BOARD (DESKTOP + MOBILE UI ONLY)
+   NO STORAGE / NO FIREBASE
 ------------------------- */
 
 const msgBoard = document.getElementById("message-board");
@@ -26,133 +27,57 @@ if (msgBoard) {
     msgBoard.classList.remove("closed", "full");
   }
 
-  // ---------- OPEN FULL (from "leave a comment") ----------
-  mbOpen.addEventListener("click", () => {
-    msgBoard.classList.remove("minimized", "closed");
-    msgBoard.classList.add("full");
-    mbMin.textContent = "_";
-  });
-
-  // ---------- MAXIMIZE / MINIMIZE BUTTON ----------
-  mbMin.addEventListener("click", () => {
-    if (msgBoard.classList.contains("minimized")) {
-      msgBoard.classList.remove("minimized");
+  // ---------- OPEN FULL ----------
+  if (mbOpen) {
+    mbOpen.addEventListener("click", () => {
+      msgBoard.classList.remove("minimized", "closed");
       msgBoard.classList.add("full");
-      mbMin.textContent = "_";
-    } else {
-      msgBoard.classList.remove("full");
-      msgBoard.classList.add("minimized");
-      mbMin.textContent = "▢";
-    }
-  });
+      if (mbMin) mbMin.textContent = "_";
+    });
+  }
+
+  // ---------- MINIMIZE / MAXIMIZE (DESKTOP ONLY) ----------
+  if (mbMin) {
+    mbMin.addEventListener("click", () => {
+      if (msgBoard.classList.contains("minimized")) {
+        msgBoard.classList.remove("minimized");
+        msgBoard.classList.add("full");
+        mbMin.textContent = "_";
+      } else {
+        msgBoard.classList.remove("full");
+        msgBoard.classList.add("minimized");
+        mbMin.textContent = "▢";
+      }
+    });
+  }
 
   // ---------- CLOSE ----------
-  mbClose.addEventListener("click", () => {
-    msgBoard.classList.add("closed");
-    msgBoard.classList.remove("minimized", "full");
-    msgBoard.style.display = "";   // <-- REMOVE display none
-  });
-
-  // ---------- MINI GIF BUTTON ----------
-  msgMini.addEventListener("click", () => {
-
-    // MOBILE: open full screen
-    if (isMobile()) {
-      msgBoard.classList.remove("closed");
-      msgBoard.classList.add("full");
-      mbMin.textContent = "_";
-      return;
-    }
-
-    // DESKTOP: reopen minimized
-    msgBoard.classList.remove("closed", "full");
-    msgBoard.classList.add("minimized");
-    mbMin.textContent = "▢";
-  });
-}
-
-
-
-
-
-/* -------------------------
-   MESSAGE BOARD STORAGE (Node API)
-------------------------- */
-
-const messagesContainer = document.getElementById("messages");
-const postForm = document.getElementById("postForm");
-const usernameInput = document.getElementById("username");
-const messageTextInput = document.getElementById("messageText");
-const messageError = document.getElementById("message-error");
-
-const API_URL = "https://nicedamage-world.onrender.com/api/messages";
-const MAX_MESSAGE_LENGTH = 300; // change if needed
-
-async function fetchMessages() {
-  try {
-    const res = await fetch(API_URL);
-    if (!res.ok) throw new Error("Failed to fetch messages");
-    return res.json();
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
-}
-
-async function renderMessages() {
-  const messages = await fetchMessages();
-  messagesContainer.innerHTML = "";
-
-  // show newest first
-  messages.slice().reverse().forEach((msg) => {
-    const msgDiv = document.createElement("div");
-    msgDiv.classList.add("message");
-
-    msgDiv.innerHTML = `
-      <strong>${msg.username}</strong>
-      <p>${msg.text}</p>
-      <span class="timestamp">${new Date(msg.timestamp).toLocaleString()}</span>
-    `;
-
-    messagesContainer.appendChild(msgDiv);
-  });
-}
-
-postForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const username = usernameInput.value.trim();
-  const text = messageTextInput.value.trim();
-
-  // Clear previous error
-  messageError.textContent = "";
-
-  // Message length limit
-  if (text.length > MAX_MESSAGE_LENGTH) {
-    messageError.textContent = `Message too long. Max ${MAX_MESSAGE_LENGTH} characters.`;
-    return;
+  if (mbClose) {
+    mbClose.addEventListener("click", () => {
+      msgBoard.classList.add("closed");
+      msgBoard.classList.remove("minimized", "full");
+    });
   }
 
-  if (!text) return;
+  // ---------- MINI BUTTON ----------
+  if (msgMini) {
+    msgMini.addEventListener("click", () => {
 
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, text }),
-  });
+      // MOBILE → open full
+      if (isMobile()) {
+        msgBoard.classList.remove("closed");
+        msgBoard.classList.add("full");
+        if (mbMin) mbMin.textContent = "_";
+        return;
+      }
 
-  if (!response.ok) {
-    console.error("Failed to post message");
-    return;
+      // DESKTOP → minimized
+      msgBoard.classList.remove("closed", "full");
+      msgBoard.classList.add("minimized");
+      if (mbMin) mbMin.textContent = "▢";
+    });
   }
-
-  postForm.reset();
-  renderMessages();
-});
-
-// load messages when page loads
-renderMessages();
-setInterval(renderMessages, 5000);
+}
 
 
 
