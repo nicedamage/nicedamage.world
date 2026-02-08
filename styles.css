@@ -732,10 +732,49 @@
   box-sizing: border-box;
 }
 
-.message p {
-  white-space: normal;
-  word-wrap: break-word;
+/* -------------------------
+   MESSAGE BOARD STYLING
+------------------------- */
+
+/* -------------------------
+   90s-2000s MESSAGE BOARD STYLE
+------------------------- */
+
+.message {
+  background-color: rgba(0, 0, 0, 0.2); /* subtle dark box */
+  border: 1px solid rgba(255,255,255,0.1); /* faint border */
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Courier New', monospace; /* retro digital font */
+  word-break: break-word;
 }
+
+.message strong {
+  font-weight: bold;
+  font-style: italic;              /* slightly playful */
+  color: #33ffcc;                  /* bright neon-green username */
+  margin-bottom: 2px;
+}
+
+.message p {
+  font-weight: normal;
+  color: black;                  /* plain white message text */
+  margin: 0;
+  line-height: 1.4;
+}
+
+.message .timestamp {
+  font-size: 0.7em;
+  color: black;                     /* dim timestamp */
+  margin-top: 2px;
+  text-align: right;
+  font-family: 'Courier New', monospace;
+}
+
+
 
 .message-error {
   color: #ff4d4d;

@@ -10,8 +10,11 @@ import {
   query,
   orderBy,
   onSnapshot,
-  serverTimestamp
+  serverTimestamp,
+  Timestamp
 } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
 
 // 🔥 Firebase config
 const firebaseConfig = {
@@ -26,6 +29,10 @@ const firebaseConfig = {
 // init
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
+
+// login anonymously
+await signInAnonymously(auth);
 
 // DOM
 const messagesContainer = document.getElementById("messages");
@@ -33,20 +40,30 @@ const postForm = document.getElementById("postForm");
 const usernameInput = document.getElementById("username");
 const messageTextInput = document.getElementById("messageText");
 const messageError = document.getElementById("message-error");
+const charCount = document.getElementById("char-count");
 
 const MAX_MESSAGE_LENGTH = 300;
 
-// ---------- LOAD MESSAGES ----------
-const q = query(
-  collection(db, "messages"),
-  orderBy("createdAt", "asc")
-);
+// Character count
+if (charCount) {
+  messageTextInput.addEventListener("input", () => {
+    charCount.textContent = `${messageTextInput.value.length}/${MAX_MESSAGE_LENGTH}`;
+  });
+}
+
+// ---------- FIRESTORE LISTENER ----------
+const q = query(collection(db, "messages"), orderBy("createdAt", "asc"));
 
 onSnapshot(q, (snapshot) => {
+  renderMessages(snapshot);
+});
+
+function renderMessages(snapshot) {
   messagesContainer.innerHTML = "";
 
-  snapshot.forEach((doc) => {
-    const msg = doc.data();
+  snapshot.forEach((docSnap) => {
+    const msg = docSnap.data();
+    const id = docSnap.id;
 
     const msgDiv = document.createElement("div");
     msgDiv.classList.add("message");
@@ -54,13 +71,14 @@ onSnapshot(q, (snapshot) => {
     msgDiv.innerHTML = `
       <strong>${msg.username || "anon"}</strong>
       <p>${msg.text}</p>
+      <span class="timestamp">${msg.createdAt ? new Date(msg.createdAt.seconds * 1000).toLocaleString() : ""}</span>
     `;
 
     messagesContainer.appendChild(msgDiv);
   });
 
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
-});
+}
 
 // ---------- POST MESSAGE ----------
 postForm.addEventListener("submit", async (e) => {
@@ -68,11 +86,9 @@ postForm.addEventListener("submit", async (e) => {
 
   const username = usernameInput.value.trim();
   const text = messageTextInput.value.trim();
-
   messageError.textContent = "";
 
   if (!text) return;
-
   if (text.length > MAX_MESSAGE_LENGTH) {
     messageError.textContent = `Message too long. Max ${MAX_MESSAGE_LENGTH} characters.`;
     return;
@@ -82,11 +98,13 @@ postForm.addEventListener("submit", async (e) => {
     await addDoc(collection(db, "messages"), {
       username: username || "anon",
       text,
-      createdAt: serverTimestamp()
+      createdAt: serverTimestamp(),
+      uid: auth.currentUser.uid
     });
 
     postForm.reset();
-  } catch (err) {
+    if (charCount) charCount.textContent = `0/${MAX_MESSAGE_LENGTH}`;
+  } catch(err){
     console.error("Failed to post message", err);
   }
 });
