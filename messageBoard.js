@@ -2,6 +2,7 @@
    MESSAGE BOARD STORAGE (FIREBASE)
 ------------------------- */
 
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
 import {
   getFirestore,
@@ -69,7 +70,7 @@ function renderMessages(snapshot) {
     msgDiv.classList.add("message");
 
     msgDiv.innerHTML = `
-      <strong>${msg.username || "anon"}</strong>
+      <strong>${msg.username || "anon"} said:</strong>
       <p>${msg.text}</p>
       <span class="timestamp">${msg.createdAt ? new Date(msg.createdAt.seconds * 1000).toLocaleString() : ""}</span>
     `;
@@ -84,7 +85,7 @@ function renderMessages(snapshot) {
 postForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const username = usernameInput.value.trim();
+  let username = usernameInput.value.trim();
   const text = messageTextInput.value.trim();
   messageError.textContent = "";
 
@@ -94,9 +95,12 @@ postForm.addEventListener("submit", async (e) => {
     return;
   }
 
+  // ENFORCE NO SPACES: replace spaces with underscores
+  username = username ? username.replace(/\s+/g, "_") : "anon";
+
   try {
     await addDoc(collection(db, "messages"), {
-      username: username || "anon",
+      username,
       text,
       createdAt: serverTimestamp(),
       uid: auth.currentUser.uid
@@ -104,7 +108,10 @@ postForm.addEventListener("submit", async (e) => {
 
     postForm.reset();
     if (charCount) charCount.textContent = `0/${MAX_MESSAGE_LENGTH}`;
-  } catch(err){
+
+  } catch(err) {
     console.error("Failed to post message", err);
   }
 });
+
+

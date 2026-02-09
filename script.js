@@ -14,7 +14,7 @@ const mbMin    = document.getElementById("mb-minimize");
 const mbClose  = document.getElementById("mb-close");
 const mbOpen   = document.getElementById("mb-open"); // "leave a comment"
 
-const isMobile = () => window.matchMedia("(max-width: 600px)").matches;
+const isMobile = () => window.matchMedia("(max-width: 1024px)").matches;
 
 if (msgBoard) {
 
