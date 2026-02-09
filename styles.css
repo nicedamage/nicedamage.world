@@ -959,6 +959,7 @@ nav ul {
 /* music player bottom dock */
 #music-player {
   position: fixed;
+  width: 90vw;
   left: 8px !important;
   right: 8px !important;
   bottom: 8px;
