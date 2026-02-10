@@ -960,15 +960,12 @@ nav ul {
 #music-player {
   position: fixed;
   width: 90vw;
-  left: 8px !important;
-  right: 8px !important;
   bottom: 8px;
   top: auto;
   justify-self: center;
   max-width: none;
   border-radius: 16px 16px 10px 10px;
-  left: 50%;
-  transform: translateX(-50%);
+
 
 }
 
