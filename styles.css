@@ -959,7 +959,7 @@ nav ul {
 /* music player bottom dock */
 #music-player {
   position: fixed;
-  width: 90vw;
+  width: 100vw;
   left: 8px !important;
   right: 8px !important;
   bottom: 8px;
@@ -975,7 +975,7 @@ nav ul {
 }
 
 .wmp-controls button {
-  width: 10vw;
+  width: 13vw;
 }
 
 /* iOS safe area */
