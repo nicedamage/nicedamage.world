@@ -967,6 +967,8 @@ nav ul {
   justify-self: center;
   max-width: none;
   border-radius: 16px 16px 10px 10px;
+  left: 50%;
+  transform: translateX(-50%);
 
 }
 
