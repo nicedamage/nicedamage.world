@@ -279,6 +279,46 @@ if (msgBoard) {
     minimizeBtn.textContent = "_";
   });
 
+
+function adjustLayoutForPlayer() {
+  const player = document.getElementById("music-player");
+  const pageLayout = document.querySelector(".page-layout");
+  const textBlock = document.querySelector(".text-block");
+  const header = document.querySelector("header");
+  const messageMini = document.getElementById("message-board-mini");
+
+  if (window.matchMedia("(max-width: 1024px)").matches) {
+
+    // ---- Measure top ----
+    const headerHeight = header.offsetHeight;
+    textBlock.style.top = headerHeight + -7 + "px";
+
+    const textBlockHeight = textBlock.offsetHeight;
+    const totalTopHeight = headerHeight + textBlockHeight;
+
+    // ---- Measure bottom ----
+    const playerHeight = player.offsetHeight;
+    const miniHeight = messageMini.offsetHeight;
+
+        // Apply dynamic padding
+    pageLayout.style.paddingTop = totalTopHeight + "px";
+    pageLayout.style.paddingBottom =
+      playerHeight + miniHeight + "px";
+
+    // Position mini above player
+    messageMini.style.bottom =
+      playerHeight + "px";
+    } else {
+      pageLayout.style.paddingTop = "";
+      pageLayout.style.paddingBottom = "";
+      messageMini.style.bottom = "";
+      textBlock.style.top = "";
+    }
+  }
+  
+  window.addEventListener("load", adjustLayoutForPlayer);
+  window.addEventListener("resize", adjustLayoutForPlayer);
+
   /* -------------------------
      SPARKLE CURSOR CODE
   ------------------------- */
