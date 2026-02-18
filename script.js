@@ -83,6 +83,7 @@ if (msgBoard) {
 
 
 
+
   /* -------------------------
      MEDIA PLAYER CODE
   ------------------------- */
@@ -318,6 +319,7 @@ function adjustLayoutForPlayer() {
   
   window.addEventListener("load", adjustLayoutForPlayer);
   window.addEventListener("resize", adjustLayoutForPlayer);
+
 
   /* -------------------------
      SPARKLE CURSOR CODE
