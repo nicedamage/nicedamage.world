@@ -8,7 +8,7 @@
 @font-face {
   font-family: "bianzhidai pearl";
   src:
-    url("/fonts/bianzhidai_noBG-Pearl.otf") format("otf");
+    url("fonts/bianzhidai_noBG-Pearl.otf") format("otf");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -16,7 +16,7 @@
 
 @font-face {
   font-family: "bianzhidai cube";
-  src: url("/fonts/bianzhidai_noBG-Cube.otf") format("otf");
+  src: url("fonts/bianzhidai_noBG-Cube.otf") format("otf");
 }
 
 header {
@@ -37,8 +37,13 @@ html, body {
   height: 100%;
   overflow: hidden; /* stop page scrolling */
   background-image: url("blue035.jpg");
+  background-image: url("bgnebula.gif");
+  background-image: url("teal.jpg");
+  background-image: url("purple01.jpg");
+  background-image: url("gal.jpg");
+  background-image: url("space-03.jpeg");
   background-repeat: repeat;
-  background-size: 128px 128px;
+  background-size: 7%;
   overflow-x: hidden; /* prevent sideways scroll */
 }
 
@@ -914,9 +919,15 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
 #landing {
   position: fixed;
   inset: 0;
-  background-image: url("grey02.gif");
+  /* background-image: url("bgnebula.gif"); */
+  /* background-image: url("bgrainbow.gif"); */
+  /* background-image: url("gal.jpg"); */
+  /* background-image: url("space-03.jpeg"); */
+  background-image: url("space-03.jpeg");
   background-repeat: repeat;
-  background-size: 15%;
+  background-size: 7%;
+  image-rendering: pixelated;
+  align-content: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -954,16 +965,6 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   pointer-events: auto;
 }
 
-/* glow as a background using ::before */
-#enter-button::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 100px; /* makes it circular around the image */
-  background: rgba(0, 255, 225, 0.729);
-  filter: blur(30px); /* spreads the glow */
-  z-index: -1; /* behind the image */
-}
 
 /* the GIF itself */
 #enter-button img {
@@ -979,7 +980,7 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
 /* hover effect on desktop */
 @media (hover: hover) {
   #enter-button:hover img {
-    transform: scale(1.05);
+    transform: scale(1.15);
   }
 }
 
@@ -1227,7 +1228,7 @@ img {
 
 
 #enter-button::before {
-  
+
 
 }
 
