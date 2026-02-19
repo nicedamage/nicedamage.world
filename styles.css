@@ -1230,13 +1230,7 @@ img {
 }
 
 #enter-button::before {
-  content: "";
-  position: absolute;
-  inset: 1;
-  border-radius: 50px; /* makes it circular around the image */
-  background: rgba(216, 185, 255, 0.729);
-  filter: blur(5px); /* spreads the glow */
-  z-index: -1; /* behind the image */
+  transform: scale(70%);
 }
 
 #landing-sword {
