@@ -904,9 +904,9 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
 
 #message-board input,
 #message-board textarea {
-  -webkit-appearance: none;
   appearance: none;
   border-radius: 0;
+  border: none;
 }
 
 
@@ -967,7 +967,7 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
 
 /* the GIF itself */
 #enter-button img {
-  width: 220px;
+  width: 120px;
   max-width: 60vw;
   height: auto;
   pointer-events: none; /* ensures click is on container */
@@ -1225,7 +1225,7 @@ img {
 }
 
 #enter-button {
-  transform: scale(60%);
+  transform: scale(80%);
   max-width: 75vw;
 
 }
@@ -1235,23 +1235,14 @@ img {
   max-width: 65vw;
 }
 
-/* optional: soften glow on smaller screens */
-#enter-button::before {
-  filter: blur(10px);
+#music-player {
+  position: fixed;
+  transform: none;
+  z-index: 1000;
 }
 }
 
-@media (max-width: 1024px) {
 
-
-
-  #music-player {
-    position: fixed;
-    transform: none;
-    z-index: 1000;
-  }
-
-}
 
 @media (max-height: 580px) {
   .page-center {
