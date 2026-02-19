@@ -1230,7 +1230,8 @@ img {
 }
 
 #enter-button::before {
-  transform: scale(70%);
+  transform: scale(50%);
+  filter: blur(5px);
 }
 
 
