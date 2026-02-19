@@ -1229,11 +1229,6 @@ img {
   max-width: 75vw;
 }
 
-#enter-button::before {
-  transform: scale(30%);
-  filter: blur(5px);
-}
-
 
 #landing-sword {
   width: 130px;
