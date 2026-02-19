@@ -80,10 +80,6 @@ if (msgBoard) {
 }
 
 
-
-
-
-
   /* -------------------------
      MEDIA PLAYER CODE
   ------------------------- */
@@ -492,4 +488,23 @@ function adjustLayoutForPlayer() {
 
 });
 
+const enterButton = document.getElementById("enter-button");
+const landing = document.getElementById("landing");
+const site = document.getElementById("site-content");
+
+if (enterButton && landing && site) {
+
+  enterButton.addEventListener("click", () => {
+    landing.classList.add("hidden");
+
+    setTimeout(() => {
+      site.classList.add("visible");
+    }, 400);
+
+    setTimeout(() => {
+      landing.remove();
+    }, 1000);
+  });
+
+}
 

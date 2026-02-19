@@ -45,7 +45,9 @@ html, body {
 /* Disable selection globally */
 body {
 user-select: none;
+transition: opacity 1s ease;
 }
+
 
 /* BUT allow selecting message text */
 .message p,
@@ -867,7 +869,6 @@ position: fixed;
 bottom: 120px;
 right: 100px;
 z-index: 9999;
-
 }
 
 #message-board.closed + #message-board-mini {
@@ -908,6 +909,95 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   border-radius: 0;
 }
 
+
+/* Landing page full screen */
+#landing {
+  position: fixed;
+  inset: 0;
+  background-image: url("grey02.gif");
+  background-repeat: repeat;
+  background-size: 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px; /* spacing between enter and sword */
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+/* Hide landing page when fading out */
+#landing.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Site content hidden initially */
+#site-content {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+/* Site content visible after landing fade */
+#site-content.visible {
+  opacity: 1;
+}
+
+/* container stays clickable */
+#enter-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* glow as a background using ::before */
+#enter-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 100px; /* makes it circular around the image */
+  background: rgba(216, 185, 255, 0.729);
+  filter: blur(10px); /* spreads the glow */
+  z-index: -1; /* behind the image */
+}
+
+/* the GIF itself */
+#enter-button img {
+  width: 220px;
+  max-width: 60vw;
+  height: auto;
+  pointer-events: none; /* ensures click is on container */
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: transform 0.2s ease;
+}
+
+/* hover effect on desktop */
+@media (hover: hover) {
+  #enter-button:hover img {
+    transform: scale(1.05);
+  }
+}
+
+
+
+/* Sword GIF */
+#landing-sword {
+  width: 160px;
+  max-width: 50vw;
+  height: auto;
+  z-index: 1;
+  pointer-events: none; /* sword doesn’t block clicks */
+}
+
+
+
+
+
 @media (max-width: 1024px) {
 
   body {
@@ -945,7 +1035,7 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
     bottom: 0;
     left: 13vw;
     right: 13vw;
-    width: 77vw;
+    width: 74vw;
     align-self: center;
     z-index: 1000;
     transform: none;
@@ -1027,7 +1117,6 @@ nav ul {
 }
 
 
-
 .wmp-visualizer {
   display: none;
 }
@@ -1071,7 +1160,6 @@ footer{
   #message-board-mini {
     position: fixed;
     left: 100px;
-    right: auto;
     transform: scale(50%);
     z-index: 1100;
     align-items: center;
@@ -1128,6 +1216,27 @@ img {
 #volume {
   display: none;
   visibility: hidden;
+}
+
+
+#landing {
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+#enter-button img {
+  width: 180px;
+  max-width: 75vw;
+}
+
+#landing-sword {
+  width: 130px;
+  max-width: 65vw;
+}
+
+/* optional: soften glow on smaller screens */
+#enter-button::before {
+  filter: blur(20px);
 }
 }
 
