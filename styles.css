@@ -1220,13 +1220,14 @@ img {
 
 
 #landing {
-  gap: 1.5rem;
-  padding: 1.5rem;
+  gap: 1rem;
+  padding: 1rem;
 }
 
-#enter-button img {
-  width: 180px;
+#enter-button {
+  transform: scale(60%);
   max-width: 75vw;
+
 }
 
 #landing-sword {
