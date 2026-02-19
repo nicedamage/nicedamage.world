@@ -1224,14 +1224,11 @@ img {
   padding: 1rem;
 }
 
-#enter-button {
+#enter-button img{
   transform: scale(70%);
   max-width: 75vw;
 }
 
-#enter-button::before {
-  transform: scale(70%);
-}
 
 #landing-sword {
   width: 130px;
