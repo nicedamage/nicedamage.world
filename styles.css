@@ -1224,7 +1224,7 @@ img {
   padding: 1rem;
 }
 
-#enter-button img{
+#enter-button::before {
   transform: scale(70%);
   max-width: 75vw;
 }
