@@ -960,8 +960,8 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   position: absolute;
   inset: 0;
   border-radius: 100px; /* makes it circular around the image */
-  background: rgba(216, 185, 255, 0.729);
-  filter: blur(10px); /* spreads the glow */
+  background: rgba(0, 255, 225, 0.729);
+  filter: blur(30px); /* spreads the glow */
   z-index: -1; /* behind the image */
 }
 
@@ -1227,7 +1227,7 @@ img {
 
 
 #enter-button::before {
-  transform: scale(50%);
+  
 
 }
 
