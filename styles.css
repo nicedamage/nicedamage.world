@@ -1225,11 +1225,11 @@ img {
 }
 
 #enter-button img {
-  transform: scale(60%);
+  transform: scale(70%);
 }
 
 #enter-button::before {
-  transform: scale(70%);
+  transform: scale(60%);
   max-width: 75vw;
 }
 
