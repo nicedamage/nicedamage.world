@@ -1226,6 +1226,11 @@ img {
 
 
 
+#enter-button::before {
+  transform: scale(70%);
+
+}
+
 
 #landing-sword {
   width: 130px;
