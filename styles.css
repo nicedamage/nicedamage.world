@@ -1022,14 +1022,8 @@ nav ul {
   display: none; /* hide rails on mobile */
 }
 
-
-
-#volume {
-  width: 25vw;
-}
-
 .wmp-controls button {
-  width: 13vw;
+  width: 20vw;
 }
 
 
@@ -1076,9 +1070,17 @@ footer{
 
   #message-board-mini {
     position: fixed;
-    left: 50%;
-    transform: translateX(-50%) scale(80%);
+    left: 100px;
+    right: auto;
+    transform: scale(50%);
     z-index: 1100;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: fixed;
+    bottom: 120px;
+    z-index: 9999;
+
   }
 
 
@@ -1121,6 +1123,11 @@ img {
 
  .heart-beat {
   display: none;
+}
+
+#volume {
+  display: none;
+  visibility: hidden;
 }
 }
 
