@@ -7,11 +7,10 @@
 
 @font-face {
   font-family: "bianzhidai_nobg pearl";
-  src:
-    url("fonts/bianzhidai_noBG-Pearl.otf") format("otf");
+  src: url("fonts/bianzhidai_noBG-Pearl.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: swap; /* keeps layout stable while loading */
 }
 
 @font-face {
@@ -494,8 +493,8 @@ animation: marquee 10s linear infinite;
 }
 
 .wmp-title {
-font-family: "bianzhidai_nobg pearl";
-font-weight: regular;
+font-family: "bianzhidai_nobg pearl", "Comic Neue", sans-serif;
+font-weight: normal;
 letter-spacing: -1px;
 text-align: left;
 margin-right: auto; /* THIS pushes buttons to the right */
@@ -744,7 +743,7 @@ padding: 8px;
 margin-bottom: 8px;
 border-radius: 10px;
 border: 1px solid rgba(224, 151, 255, 0.507);
-background: rgba(224, 151, 255, 0.507);
+background: #ffcaf1b6;
 color: rgb(0, 0, 0);
 resize: vertical;
 max-height: 160px;
