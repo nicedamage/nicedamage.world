@@ -68,12 +68,10 @@ main {
   display: flex;
   justify-content: center;
   padding: 200px 0 200px;
-  min-height: 100vh;
+  height: 100dvh;
   position: relative;
   z-index: 2;
-  height: 100vh;
   overflow: hidden;
-
 }
 
 .page-center {
@@ -1005,7 +1003,7 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100dvh;
   }
 
   /* 1️⃣ Fix header to top */
@@ -1045,6 +1043,9 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
 
   /* 3️⃣ Create safe scroll area between them */
   .page-layout {
+      display: flex;
+      flex-direction: column;
+  
     min-height: 100vh;
     box-sizing: border-box;
     margin-left: 30px;
