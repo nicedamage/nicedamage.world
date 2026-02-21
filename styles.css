@@ -1043,10 +1043,9 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
 
   /* 3️⃣ Create safe scroll area between them */
   .page-layout {
-      display: flex;
-      flex-direction: column;
-  
-    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
     box-sizing: border-box;
     margin-left: 30px;
     margin-right: 30px;
@@ -1068,7 +1067,7 @@ main {
   max-width: 85vw;                /* keeps text readable */
   border-radius: 2px;
   transform: none;
-  flex: 1; /* fills available space */
+  flex: 1;
   overflow-y: auto;
 }
 
@@ -1160,19 +1159,13 @@ footer{
 }
 
 
-  #message-board-mini {
-    position: fixed;
-    left: 100px;
-    transform: scale(50%);
-    z-index: 1100;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    position: fixed;
-    bottom: 120px;
-    z-index: 9999;
-
-  }
+#message-board-mini {
+  position: fixed;
+  left: 100px;
+  bottom: 120px;
+  transform: scale(0.5);
+  z-index: 9999;
+}
 
 
 #message-board.full + #message-board-mini {
