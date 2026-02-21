@@ -6,7 +6,7 @@
 }
 
 @font-face {
-  font-family: "bianzhidai pearl";
+  font-family: "bianzhidai_nobg pearl";
   src:
     url("fonts/bianzhidai_noBG-Pearl.otf") format("otf");
   font-weight: normal;
@@ -79,7 +79,8 @@ main {
 .page-center {
   width: 100vw;
   max-width: 770px;
-  background: rgb(159, 159, 159);
+  background: rgb(142, 142, 142);
+  /* background-image: url(grey02.gif); */
   border-radius: 2px;
   overflow-y: auto;  /* THIS scrolls */
   max-height: calc(100vh - 220px);
@@ -1223,12 +1224,12 @@ img {
 #landing {
   gap: 1rem;
   padding: 1rem;
+  background-size: 41.3%;
 }
 
+html, body {
 
-
-#enter-button::before {
-
+  background-size: 41.3%;
 
 }
 
