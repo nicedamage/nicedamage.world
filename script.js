@@ -100,6 +100,10 @@ if (msgBoard) {
     canvas.height = canvas.offsetHeight;
   }
 
+  // ===========
+  // PLAYLIST
+  // ===========
+
   const playlist = [
     { title: "Aphex Twin – Windowlicker", src: "windowlicker.mp3" },
     { title: "Plush Managements Inc. - Mr. Mailman feat. Bea", src: "mr-mailman-feat-bea.mp3" }
@@ -292,7 +296,7 @@ if (msgBoard) {
       const headerHeight = header.offsetHeight;
   
       // First apply visual shift
-      textBlock.style.top = headerHeight - 7 + "px";
+      textBlock.style.top = headerHeight - 10 + "px";
   
       // Wait one frame before measuring
       requestAnimationFrame(() => {
@@ -323,7 +327,7 @@ if (msgBoard) {
   window.addEventListener("load", adjustLayoutForPlayer);
   window.addEventListener("resize", adjustLayoutForPlayer);
 
-  
+
 
   let resizeTimeout;
 
@@ -331,6 +335,79 @@ window.addEventListener("resize", () => {
   cancelAnimationFrame(resizeTimeout);
   resizeTimeout = requestAnimationFrame(adjustLayoutForPlayer);
 });
+// ===============
+// ABOUT WINDOW
+// ===============
+
+const aboutLink = document.querySelector('nav a[href="#about"]');
+const aboutWindow = document.getElementById("about-window");
+const aboutClose = document.getElementById("about-close");
+
+if (aboutLink && aboutWindow && aboutClose) {
+
+  let highestZ = 20000;
+  let isDragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  const titleBar = aboutWindow.querySelector(".wmp-titlebar");
+
+  // -------- OPEN --------
+  aboutLink.addEventListener("click", (e) => {
+    e.preventDefault();
+  
+    aboutWindow.classList.add("visible");
+  
+    // Move to end of body so it renders on top
+    document.body.appendChild(aboutWindow);
+  
+    aboutWindow.style.zIndex = "9999";
+  });
+  
+
+  // -------- CLOSE --------
+  aboutClose.addEventListener("click", () => {
+    aboutWindow.classList.remove("visible");
+  });
+
+  // -------- DRAG --------
+  if (titleBar) {
+    titleBar.addEventListener("mousedown", (e) => {
+      if (window.innerWidth <= 1024) return;
+
+      isDragging = true;
+
+      const rect = aboutWindow.getBoundingClientRect();
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+
+      aboutWindow.style.transform = "none";
+      aboutWindow.dataset.dragged = "true";
+      aboutWindow.style.cursor = "grabbing";
+
+      highestZ++;
+      aboutWindow.style.zIndex = highestZ;
+    });
+
+    document.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+
+      aboutWindow.style.left = e.clientX - offsetX + "px";
+      aboutWindow.style.top = e.clientY - offsetY + "px";
+    });
+
+    document.addEventListener("mouseup", () => {
+      isDragging = false;
+      aboutWindow.style.cursor = "grab";
+    });
+  }
+
+  // Bring to front when clicked
+  aboutWindow.addEventListener("mousedown", () => {
+    highestZ++;
+    aboutWindow.style.zIndex = highestZ;
+  });
+}
 
 
   /* -------------------------
