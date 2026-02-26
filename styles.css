@@ -1440,11 +1440,25 @@ html, body {
     width: 140px;
   }
 
+
+
   #contact-window {
-    transform: scale(.51);
-    left: -277px;
+
+    left:-250px;
+    right: auto;
     top: -90px;
+    transform: scale(.55);
   }
+
+.contact-text {
+  position: relative;
+  right: -280px;
+  top: -550px;
+}
+
+.contact-text img {
+width: 150px;
+}
 
 }
 
