@@ -409,6 +409,29 @@ if (aboutLink && aboutWindow && aboutClose) {
   });
 }
 
+// =============
+// CONTACT WINDOW
+// =============
+
+const contactWindow = document.getElementById("contact-window");
+const contactLink = document.getElementById("contact-link");
+const closeContact = document.getElementById("close-contact");
+const contactTitlebar = document.getElementById("contact-titlebar");
+
+// Open
+contactLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  contactWindow.classList.add("visible");
+  contactWindow.style.zIndex = Date.now(); // brings to front
+});
+
+// Close
+closeContact.addEventListener("click", () => {
+  contactWindow.classList.remove("visible");
+});
+
+
+
 
   /* -------------------------
      SPARKLE CURSOR CODE

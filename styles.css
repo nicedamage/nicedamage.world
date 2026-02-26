@@ -1031,9 +1031,8 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   color: #000000;
   border: 2px outset grey;
   border-radius: 6px;
-
   opacity: 0;
-
+  pointer-events: none;
   transition: opacity 0.3s ease;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
   overflow: hidden;
@@ -1064,6 +1063,7 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   cursor: grab;
   z-index: 2;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.788), rgba(0, 0, 255, 0.847));
+  transition: opacity 0.3s ease;
 }
 
 
@@ -1086,8 +1086,7 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
 /* visible state */
 #about-window.visible {
   opacity: 1;
-  pointer-events: all;
-  display: block;
+  pointer-events: auto;
 }
 
 #about-window .about-body::-webkit-scrollbar {
@@ -1103,6 +1102,58 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   background: rgba(255, 147, 248, 0.746);
   border: 2px outset rgb(255, 201, 255);
 }
+
+#contact-window {
+  position: fixed;
+  top: 40px;
+  left: 250px;
+  display: none;
+  z-index: 999999;
+  isolation: isolate;
+}
+
+#contact-window.visible {
+  display: block;
+}
+
+.contact-ui {
+  width: 930px;
+  z-index: 999999;
+  opacity: 87%;
+}
+
+#close-contact {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  border: 2px rgba(75, 52, 98, 0.629) outset;
+  background: linear-gradient(
+    to bottom,
+    #eed8fff0  0%,
+    #8966a2f0 100% 
+    );
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.478);
+  top: 245px;
+  right: -660px;
+  position: relative;
+  z-index: 9999999;
+  }
+  
+  #close-contact:hover {
+  background: rgb(72, 54, 83);
+  color: #ffffff;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.478);
+  /* background: rgba(0, 0, 45, 0.608); */
+  transform: scale(.97);
+  }
+  
+  #close-contact:active {
+  transform: scale(1.05);
+  background: rgb(0, 255, 229);
+  }
 
 
 
@@ -1387,6 +1438,12 @@ html, body {
 
   #about-window img {
     width: 140px;
+  }
+
+  #contact-window {
+    transform: scale(.51);
+    left: -277px;
+    top: -90px;
   }
 
 }
