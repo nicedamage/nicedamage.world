@@ -1620,11 +1620,6 @@ html, body {
   }
 
 
-  #about-window {
-    -webkit-overflow-scrolling: touch;
-  }
-
-
   #about-window a {
     color: blue;
   }
