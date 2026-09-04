@@ -1620,6 +1620,20 @@ html, body {
   }
 
 
+  #about-window {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .contact-text {
+    position: absolute;
+  }
+
+  .contact-text button {
+    background-color: #00000000;
+    
+  }
+
+
   #about-window a {
     color: blue;
   }
