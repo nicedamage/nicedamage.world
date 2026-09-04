@@ -1094,7 +1094,7 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
 
 #email-copy {
   position: relative;
-  background: none;
+  background-color: none;
   border: none;
 }
 
