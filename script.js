@@ -260,6 +260,9 @@ if (msgBoard) {
     player.style.cursor = "grab";
   });
 
+
+  
+
   // Minimize/close
   const mini = document.getElementById("music-player-mini");
   const minimizeBtn = document.getElementById("wmp-minimize");
@@ -279,6 +282,8 @@ if (msgBoard) {
     player.classList.remove("minimized");
     minimizeBtn.textContent = "_";
   });
+
+  
 
   // ====================
   // POSITIONING STUFF
@@ -370,65 +375,126 @@ if (aboutLink && aboutWindow && aboutClose) {
     aboutWindow.classList.remove("visible");
   });
 
-  // -------- DRAG --------
-  if (titleBar) {
-    titleBar.addEventListener("mousedown", (e) => {
-      if (window.innerWidth <= 1024) return;
-
-      isDragging = true;
-
-      const rect = aboutWindow.getBoundingClientRect();
-      offsetX = e.clientX - rect.left;
-      offsetY = e.clientY - rect.top;
-
-      aboutWindow.style.transform = "none";
-      aboutWindow.dataset.dragged = "true";
-      aboutWindow.style.cursor = "grabbing";
-
-      highestZ++;
-      aboutWindow.style.zIndex = highestZ;
-    });
-
-    document.addEventListener("mousemove", (e) => {
-      if (!isDragging) return;
-
-      aboutWindow.style.left = e.clientX - offsetX + "px";
-      aboutWindow.style.top = e.clientY - offsetY + "px";
-    });
-
-    document.addEventListener("mouseup", () => {
-      isDragging = false;
-      aboutWindow.style.cursor = "grab";
-    });
-  }
-
-  // Bring to front when clicked
-  aboutWindow.addEventListener("mousedown", () => {
-    highestZ++;
-    aboutWindow.style.zIndex = highestZ;
-  });
+ 
 }
 
 // =============
-// CONTACT WINDOW
+// CONTACT button
 // =============
 
-const contactWindow = document.getElementById("contact-window");
-const contactLink = document.getElementById("contact-link");
-const closeContact = document.getElementById("close-contact");
-const contactTitlebar = document.getElementById("contact-titlebar");
 
-// Open
-contactLink.addEventListener("click", (e) => {
-  e.preventDefault();
-  contactWindow.classList.add("visible");
-  contactWindow.style.zIndex = Date.now(); // brings to front
+const emailButton = document.getElementById("email-copy");
+const copyText = document.getElementById("copy-text");
+
+emailButton.addEventListener("click", async () => {
+    try {
+        await navigator.clipboard.writeText("niiice.damage@gmail.com");
+
+        copyText.textContent = "copied ⭑ .ᐟ";
+
+        setTimeout(() => {
+            copyText.textContent = "click to copy to clipboard!";
+        }, 2000);
+
+    } catch (err) {
+        console.error("Failed to copy:", err);
+        copyText.textContent = "Couldn't copy";
+    }
 });
 
-// Close
-closeContact.addEventListener("click", () => {
-  contactWindow.classList.remove("visible");
+/* ---------------
+BOOKING WINDOW
+---------------- */
+
+const bookingLink = document.getElementById('booking-link');
+const aboutBookingLink = document.getElementById('about-booking-link');
+
+const bookingWindow = document.getElementById('booking-window');
+const bookingClose = document.getElementById('booking-close');
+
+// Open booking window
+function openBookingWindow(e) {
+e.preventDefault();
+
+if (bookingWindow) {
+bookingWindow.classList.remove('minimized');
+}
+}
+
+// Nav booking link
+if (bookingLink) {
+bookingLink.addEventListener('click', openBookingWindow);
+}
+
+// About window booking link
+if (aboutBookingLink) {
+aboutBookingLink.addEventListener('click', openBookingWindow);
+}
+
+// Close booking window
+if (bookingClose && bookingWindow) {
+bookingClose.addEventListener('click', () => {
+bookingWindow.classList.add('minimized');
 });
+}
+
+
+  // ====================
+  // ZINES WINDOW CONTROLS
+  // ====================
+  const zinesLink = document.getElementById("zines-link");
+  const zinesWindow = document.getElementById("zines-window");
+  const zinesClose = document.getElementById("zines-close");
+
+  if (zinesLink && zinesWindow) {
+    zinesLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      zinesWindow.classList.remove("minimized");
+      
+      // Default spawn positioning
+      zinesWindow.style.left = "45%";
+      zinesWindow.style.top = "150px";
+      zinesWindow.style.transform = "none";
+    });
+  }
+
+  if (zinesClose && zinesWindow) {
+    zinesClose.addEventListener("click", () => {
+      zinesWindow.classList.add("minimized");
+    });
+  }
+
+  // ====================
+  // TATTOO FLASH WINDOW
+  // ====================
+
+  
+  const flashLink = document.getElementById("flash-link");
+  const flashWindow = document.getElementById("flash-window");
+  const flashClose = document.getElementById("flash-close");
+
+  if (flashLink && flashWindow) {
+    flashLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      flashWindow.classList.remove("minimized");
+      
+      // Default spawn positioning
+
+      flashWindow.style.transform = "none";
+    });
+  }
+
+  if (flashClose && flashWindow) {
+    flashClose.addEventListener("click", () => {
+      flashWindow.classList.add("minimized");
+    });
+  }
+
+
+
+
+
+
 
 
 

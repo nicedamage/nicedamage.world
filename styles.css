@@ -40,12 +40,7 @@ html, body {
   font-weight: bold;
   height: 100%;
   overflow: hidden; /* stop page scrolling */
-  background-image: url("blue035.jpg");
-  background-image: url("bgnebula.gif");
-  background-image: url("teal.jpg");
-  background-image: url("purple01.jpg");
-  background-image: url("gal.jpg");
-  background-image: url("space-03.jpeg");
+  background-image: url("backgrounds/space-03.jpeg");
   background-repeat: repeat;
   background-size: 7%;
   overflow-x: hidden; /* prevent sideways scroll */
@@ -155,7 +150,7 @@ h1 {
 
 h2 {
   display: inline-block;
-  font-size: 26px;
+  font-size: 24px;
 }
 
 /* Text block (tight yellow outline) */
@@ -163,7 +158,7 @@ h2 {
   display: inline;       /* hugs the text */
     position: fixed;
     top: 82px;
-    transform: translateX(-50%);
+    left: 150px;
     z-index: 10;
     pointer-events: none;
   }
@@ -284,7 +279,7 @@ background:
     #57bbb3f0 45%,
     #57bbb3f0 100%
   );
-border-radius: 18px;
+border-radius: 10px;
 border: outset 1px;
 padding: 10px;
 box-shadow:
@@ -313,10 +308,9 @@ background: linear-gradient(
   rgba(255, 255, 255, 0.35),
   rgba(0, 0, 255, 0.55)
 );
-border: 1px inset rgba(0,0,0,0.35);
-border-radius: 12px;
+border: 1px rgba(0,0,0,0.35);
+border-radius: 10px;
 padding: 6px 8px;
-margin: -4px;
 box-shadow:
   inset 0 1px 0 rgba(255,255,255,0.6),
   0 3px 8px rgba(0,0,0,0.35);
@@ -356,7 +350,7 @@ border: 2px rgba(40, 39, 45, 0.629) outset;
 background: rgba(255, 144, 238, 0.461);
 color: #fff;
 cursor: pointer;
-font-size: 16px;
+font-size: 20px;
 line-height: 1;
 pointer-events: auto;
 position: relative;
@@ -533,7 +527,7 @@ all: unset;
 width: 28px;
 height: 28px;
 text-align: center;
-font-size: 14px;
+font-size: 20px;
 }
 
 /* Reuse existing button styles */
@@ -631,7 +625,7 @@ background:
     #57bbb3f0 45%,
     #57bbb3f0 100%
   );
-border-radius: 18px;
+border-radius: 10px;
 border: outset 1px;
 padding: 10px;
 box-shadow:
@@ -830,7 +824,6 @@ font-weight: normal;
 }
 
 
-
 #messages::-webkit-scrollbar {
   width: 10px;
 }
@@ -844,10 +837,6 @@ font-weight: normal;
   background: rgba(255, 147, 248, 0.746);
   border: 2px outset rgb(255, 201, 255);
 }
-
-
-
-
 
 
 .message-error {
@@ -876,7 +865,7 @@ all: unset;
 width: 28px;
 height: 28px;
 text-align: center;
-font-size: 14px;
+font-size: 20px;
 border-radius: 1px;
 border: 2px rgba(40, 39, 45, 0.629) outset;
 background: rgba(255, 144, 238, 0.461);
@@ -1027,10 +1016,10 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   left: 133px;
   width: 57dvw;
   height: 78vh;
-  background-color: #ff76e4d8;
+  background-color: rgba(255, 147, 248, 0.929);
   color: #000000;
   border: 2px outset grey;
-  border-radius: 6px;
+  border-radius: 10px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -1060,7 +1049,7 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   justify-content: space-between;
   padding: 0 15px;
   border-bottom: 1px solid #444;
-  cursor: grab;
+  border-radius: 10px 10px 0 0;
   z-index: 2;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.788), rgba(0, 0, 255, 0.847));
   transition: opacity 0.3s ease;
@@ -1073,7 +1062,6 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   bottom: 0;
   left: 0;
   right: 0;
-
   overflow-y: auto;
   padding: 15px;
 }
@@ -1082,6 +1070,7 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   text-shadow: 0 0 10px #44ffd0;
   
 }
+
 
 /* visible state */
 #about-window.visible {
@@ -1103,14 +1092,7 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   border: 2px outset rgb(255, 201, 255);
 }
 
-#contact-window {
-  position: fixed;
-  top: 40px;
-  left: 250px;
-  display: none;
-  z-index: 999999;
-  isolation: isolate;
-}
+
 
 #contact-window.visible {
   display: block;
@@ -1122,25 +1104,6 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   opacity: 87%;
 }
 
-#close-contact {
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  border: 2px rgba(75, 52, 98, 0.629) outset;
-  background: linear-gradient(
-    to bottom,
-    #eed8fff0  0%,
-    #8966a2f0 100% 
-    );
-  color: rgb(0, 0, 0);
-  cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
-  text-shadow: 0 0 2px rgba(255, 255, 255, 0.478);
-  top: 245px;
-  right: -660px;
-  position: relative;
-  z-index: 9999999;
-  }
   
   #close-contact:hover {
   background: rgb(72, 54, 83);
@@ -1154,6 +1117,242 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   transform: scale(1.05);
   background: rgb(0, 255, 229);
   }
+
+  .contact-text button {
+    background: 0;
+    border: 0;
+  }
+
+  .contact-text img {
+    width: 150px;
+  }
+
+  .contact-text img:hover {
+    color: #ffffff;
+    filter: drop-shadow(0 0 2px #0000ff);
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+
+  .contact-text img:active {
+    transform: scale(1.05);
+  }
+
+
+  .contact-text p {
+    color: black;
+    font-size: 12px;
+    text-shadow: 0 0 2px rgb(255, 86, 255);
+  }
+
+  /* ===== Tattoo Booking Window ===== */
+#booking-window {
+  position: fixed;
+  font-size: 22px;
+  top: 120px;
+  left: 350px;
+  height: 70vh;
+  width: 48vw;
+  color: #000000;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+  transition: opacity 0.3s ease;
+  z-index: 999999;
+  cursor: auto !important; 
+  transform: none;
+}
+
+/* Maintain hidden state alignment with your other popup windows */
+#booking-window.minimized {
+  display: none !important;
+  pointer-events: none;
+  transform: none;
+}
+
+#booking-window .wmp-titlebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6dvh;          /* define height */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  border-bottom: 1px solid #444;
+  border-radius: 10px 10px 0 0;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.949), rgba(0, 0, 255, 0.95));
+  transition: opacity 0.3s ease;
+}
+
+.booking-body {
+  height: 64.5vh;
+  position: absolute;
+  top: 6dvh;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+}
+
+.booking-body {
+  height: calc(100% - 45px);
+  background-color: white;
+  border: rgb(243, 81, 255) ridge 10px;
+  border-radius: 0 0 10px 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+  }
+  
+  #selected-flash {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background-color: rgb(255, 147, 248);
+  border-bottom: 2px solid black;
+  box-sizing: border-box;
+  font-size: 16px;
+  }
+  
+  #selected-flash-name {
+  text-shadow: 0 0 8px #00ff48;
+  }
+  
+  .booking-calendar {
+  height: calc(100% - 45px);
+  width: 100%;
+  }
+  
+  .booking-calendar iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  }
+
+
+/* ===== Zines Window Overrides & Sizing Alignment ===== */
+#zines-window {
+  position: fixed;
+  font-size: 22px;
+  top: 80px !important;
+  left: 140px !important;
+  width: 57vw;
+  background-color: rgba(255, 147, 248, 0.929);
+  color: #000000;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgb(255, 255, 255) !important;
+  transition: opacity 0.3s ease;
+  z-index: 2000;
+  cursor: auto !important; /* shows draggable cursor */
+  transform: none;
+}
+
+/* Sync display control parameters with system framework */
+#zines-window.minimized {
+  display: none !important;
+  pointer-events: none;
+  box-shadow: 0 0 20px rgb(255, 255, 255) !important;
+}
+
+#zines-window .wmp-titlebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6dvh;          /* define height */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  border-radius: 10px 10px 0 0;
+  border-bottom: 1px solid #444;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.955), rgba(0, 0, 255, 0.93));
+  transition: opacity 0.3s ease;
+}
+
+#flash-window {
+  position: fixed;
+  font-size: 22px;
+  top: 80px;
+  left: 133px;
+  width: 57dvw;
+  height: 78vh;
+  background-color: rgba(255, 147, 248, 0.929);
+  color: #000000;
+  border: 2px outset grey;
+  border-radius: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+  overflow: hidden;
+  cursor: auto !important; /* shows draggable cursor */
+  z-index: 99999;
+}
+
+#flash-window.minimized {
+  opacity: 0;
+  pointer-events: none;
+  }
+  
+  #flash-window:not(.minimized) {
+  opacity: 1;
+  pointer-events: auto;
+  }
+
+  #flash-window .wmp-titlebar {
+    border-radius: 10px 10px 0 0;
+    margin-bottom: 0px;
+  }
+
+  .flash-body {
+    position: relative;
+    width: 100%;
+    height: calc(78vh - 45px);
+    overflow-x: hidden;
+    background-color: rgb(166, 166, 166);
+    border-radius: 0 0 10px 10px;
+    box-sizing: border-box;
+    }
+
+    .flash-item {
+      position: absolute;
+      background-color: #c0c0c000;
+      border: 0;
+    }
+
+    .flash-item:hover {
+      transform: scale(105%);
+      cursor: pointer;
+      filter: drop-shadow(0 0 8px #00ffcc) drop-shadow(0 0 20px #00ffcc);
+    }
+    
+    .flash-body img {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    object-fit: contain;
+    }
+
+    #flash-window .flash-body::-webkit-scrollbar {
+      width: 12px;
+    }
+    
+    #flash-window .flash-body::-webkit-scrollbar-track {
+      background: #c0c0c0;
+      border: 2px inset #fff;
+    }
+    
+    #flash-window .flash-body::-webkit-scrollbar-thumb {
+      background: rgba(255, 147, 248, 0.746);
+      border: 2px outset rgb(255, 201, 255);
+    }
 
 
 
@@ -1180,6 +1379,9 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   .text-block {
     position: fixed;
     z-index: 1000;
+    left: 0;
+    padding-right: 10px;
+    padding-left: 10px;
   }
 
   /* If your nav is separate, include it */
@@ -1206,7 +1408,6 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   /* 3️⃣ Create safe scroll area between them */
   .page-layout {
     display: flex;
-    
     min-height: 100dvh;
     box-sizing: border-box;
     margin-left: 30px;
@@ -1313,7 +1514,7 @@ footer{
   width: 100vw !important;
   height: 84.7vh !important;
   transform: none !important;
-  z-index: 9998;
+  z-index: 9999999;
 }
 
 #message-board.minimized {
@@ -1348,8 +1549,8 @@ footer{
 }
 
 .wmp-btn {
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
 }
 img {
   width: 60vw;
@@ -1427,10 +1628,6 @@ html, body {
     transform: scale(110%);
   }
 
-  #about-window img {
-    width: 150px;
-  }
-
   .page-center {
     font-size: 80%;
   }
@@ -1440,25 +1637,53 @@ html, body {
     width: 140px;
   }
 
+  #booking-window {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: none !important;
+    top: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 99999 !important;
 
-
-  #contact-window {
-
-    left:-250px;
-    right: auto;
-    top: -90px;
-    transform: scale(.55);
   }
 
-.contact-text {
-  position: relative;
-  right: -280px;
-  top: -550px;
-}
+  #booking-window {
+    -webkit-overflow-scrolling: touch;
+  }
 
-.contact-text img {
-width: 150px;
-}
+  .booking-body {
+    margin: 0 !important;
+    height: 94.3vh !important;
+    border: rgb(243, 81, 255) ridge 17px !important;
+  }
+
+  #zines-window {
+    left: 0 !important;
+    right: 0;
+    bottom: 0;
+    transform: none !important;
+    top: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 99999 !important;
+  }
+
+  #flash-window {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: none !important;
+    top: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 99999 !important;
+  }
+
+  .flash-body {
+    height: 100%;
+  }
 
 }
 
