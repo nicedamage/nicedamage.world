@@ -1024,7 +1024,6 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   pointer-events: none;
   transition: opacity 0.3s ease;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
-  overflow: hidden;
   overflow-x: hidden;
 }
 
@@ -1630,7 +1629,6 @@ html, body {
 
   .contact-text button {
     background-color: #00000000;
-    
   }
 
 
