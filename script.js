@@ -490,6 +490,8 @@ bookingWindow.classList.add('minimized');
     });
   }
 
+  
+
 
 
 

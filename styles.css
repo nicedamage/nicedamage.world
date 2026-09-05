@@ -76,7 +76,7 @@ main {
 .page-center {
   width: 100dvw;
   max-width: 770px;
-  background: rgb(142, 142, 142);
+  background: #c0c0c0f3;
   /* background-image: url(grey02.gif); */
   border-radius: 2px;
   overflow-y: auto;  /* THIS scrolls */
@@ -215,7 +215,7 @@ nav{
   padding: 0;
   margin: 0;
   display: inline; 
-  background:  cyan;
+  background: cyan;
 }
 
 .list li {
@@ -281,7 +281,7 @@ background:
   );
 border-radius: 10px;
 border: outset 1px;
-padding: 10px;
+
 box-shadow:
   0 10px 25px rgba(0,0,0,0.35),
   inset 0 1px 0 rgba(255,255,255,0.9),
@@ -305,8 +305,8 @@ justify-content: flex-end;
 gap: 6px;
 background: linear-gradient(
   180deg,
-  rgba(255, 255, 255, 0.35),
-  rgba(0, 0, 255, 0.55)
+  rgb(255, 255, 255),
+  rgb(0, 0, 255)
 );
 border: 1px rgba(0,0,0,0.35);
 border-radius: 10px;
@@ -319,6 +319,9 @@ overflow: hidden;
 z-index: 1;
 position: relative;
 margin-bottom: 6px;
+border-radius: 10px 10px 0 0;
+height: 6dvh;          /* define height */
+flex: 0 0 auto;
 }
 
 
@@ -392,6 +395,8 @@ height: 150px;
 background: black;
 border-radius: 2px;
 overflow: hidden;
+margin-left: 10px;
+margin-right: 10px;
 }
 
 /* Controls */
@@ -399,7 +404,7 @@ overflow: hidden;
 display: flex;
 align-items: center;
 justify-content: space-between;
-margin-top: 10px;
+padding: 10px;
 }
 
 /* ===== Volume Slider Styling ===== */
@@ -483,7 +488,7 @@ width: 60px;
 
 .wmp-song-title {
 margin:3px;
-padding-left: 4px;
+padding: 10px;
 text-transform: none;
 }
 
@@ -627,7 +632,6 @@ background:
   );
 border-radius: 10px;
 border: outset 1px;
-padding: 10px;
 box-shadow:
   0 10px 25px rgba(0,0,0,0.35),
   inset 0 1px 0 rgba(255,255,255,0.9),
@@ -639,7 +643,7 @@ z-index: 500;
 /* minimized */
 #message-board.minimized {
 width: 320px;
-height: 350px;
+height: 340px;
 overflow: auto;
 bottom: 110px;
 }
@@ -662,12 +666,6 @@ z-index: 9999;
 /* Hide open button when full */
 #message-board.full .mb-open {
 display: none;
-}
-
-
-/* Keep title bar fixed height */
-.wmp-titlebar {
-flex: 0 0 auto;
 }
 
 /* Body is the scrollable area */
@@ -713,8 +711,7 @@ display: none;
 /* Show open button when minimized */
 #message-board.minimized .mb-open {
 display: block;
-width: 100%;
-margin-top: 10px;
+margin: 10px;
 padding: 10px;
 border: 2px rgba(40, 39, 45, 0.629) outset;
 background: rgba(255, 144, 238, 0.461);
@@ -756,8 +753,6 @@ font-size: 13px;
 .mb-form input,
 .mb-form textarea {
 width: 100%;
-padding: 8px;
-margin-bottom: 8px;
 border-radius: 10px;
 border: 1px solid rgba(224, 151, 255, 0.507);
 background: #ffcaf1b6;
@@ -766,7 +761,24 @@ resize: vertical;
 max-height: 160px;
 box-sizing: border-box;
 font-family: 'comic neue';
+padding: 5px;
 }
+
+.mb-form {
+  padding: 10px;
+  margin: 5px;
+}
+
+.mb-form textarea {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.mb-form input {
+  padding: 5px;
+}
+
+
 
 
 /* -------------------------
@@ -1016,7 +1028,9 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   left: 133px;
   width: 57dvw;
   height: 78vh;
-  background-color: rgba(255, 147, 248, 0.929);
+  /* background-color: rgba(255, 147, 248, 0.929); */
+  background-image: url("backgrounds/cloudz.gif");
+  background-size: cover;
   color: #000000;
   border: 2px outset grey;
   border-radius: 10px;
@@ -1038,19 +1052,9 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
 
 
 #about-window .wmp-titlebar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6dvh;          /* define height */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 15px;
   border-bottom: 1px solid #444;
   border-radius: 10px 10px 0 0;
   z-index: 2;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.788), rgba(0, 0, 255, 0.847));
   transition: opacity 0.3s ease;
 }
 
@@ -1165,6 +1169,7 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   z-index: 999999;
   cursor: auto !important; 
   transform: none;
+  background-color: rgba(255, 147, 248, 0.929);
 }
 
 /* Maintain hidden state alignment with your other popup windows */
@@ -1172,24 +1177,10 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   display: none !important;
   pointer-events: none;
   transform: none;
+  
 }
 
-#booking-window .wmp-titlebar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6dvh;          /* define height */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 15px;
-  border-bottom: 1px solid #444;
-  border-radius: 10px 10px 0 0;
-  z-index: 2;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.949), rgba(0, 0, 255, 0.95));
-  transition: opacity 0.3s ease;
-}
+
 
 .booking-body {
   height: 64.5vh;
@@ -1260,25 +1251,9 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
 #zines-window.minimized {
   display: none !important;
   pointer-events: none;
-  box-shadow: 0 0 20px rgb(255, 255, 255) !important;
 }
 
-#zines-window .wmp-titlebar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6dvh;          /* define height */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 15px;
-  border-radius: 10px 10px 0 0;
-  border-bottom: 1px solid #444;
-  z-index: 2;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.955), rgba(0, 0, 255, 0.93));
-  transition: opacity 0.3s ease;
-}
+
 
 #flash-window {
   position: fixed;
@@ -1357,6 +1332,10 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
     #flash-window .flash-body::-webkit-scrollbar-thumb {
       background: rgba(255, 147, 248, 0.746);
       border: 2px outset rgb(255, 201, 255);
+    }
+
+    .flash-body-mobile {
+      opacity: 0%;
     }
 
 
@@ -1659,7 +1638,6 @@ html, body {
     width: 100vw !important;
     height: 100vh !important;
     z-index: 99999 !important;
-
   }
 
   #booking-window {
@@ -1681,6 +1659,7 @@ html, body {
     width: 100vw !important;
     height: 100vh !important;
     z-index: 99999 !important;
+
   }
 
   #flash-window {
@@ -1690,12 +1669,31 @@ html, body {
     transform: none !important;
     top: 0 !important;
     width: 100vw !important;
-    height: 100vh !important;
+    height: 100vh;
     z-index: 99999 !important;
+    background: #c0c0c0f3;
+  }
+
+  #flash-window .wmp-header {
+    position: fixed;
   }
 
   .flash-body {
-    height: 100%;
+    display: none;
+    overflow-y: auto;
+  }
+
+  .flash-body-mobile {
+    opacity: 100%;
+    overflow-y: auto !important;
+  }
+
+  .flash-png {
+    width: 100% !important;
+    height: fit-content;
+    overflow-y: auto;
+
+    margin-bottom: 10%;
   }
 
 }
