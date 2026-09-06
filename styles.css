@@ -1691,7 +1691,6 @@ html, body {
 
   .flash-png {
     width: 100vw !important;
-    height: 100vh;
     overflow-y: auto;
     margin-bottom: 10%;
   }
