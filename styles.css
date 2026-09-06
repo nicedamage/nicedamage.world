@@ -1693,7 +1693,7 @@ html, body {
     width: 100% !important;
     height: fit-content;
     overflow-y: auto;
-
+    object-fit: cover; 
     margin-bottom: 10%;
   }
 
