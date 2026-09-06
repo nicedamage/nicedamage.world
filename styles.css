@@ -1690,7 +1690,7 @@ html, body {
   }
 
   .flash-png {
-    width: 100% !important;
+    width: auto !important;
     height: fit-content;
     overflow-y: auto;
     object-fit: cover; 
