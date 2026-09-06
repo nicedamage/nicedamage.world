@@ -1690,7 +1690,7 @@ html, body {
   }
 
   .flash-png {
-    
+    width: 100vw;
     overflow-y: auto;
     margin-bottom: 10%;
   }
