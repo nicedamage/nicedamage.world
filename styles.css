@@ -1687,6 +1687,8 @@ html, body {
   .flash-body-mobile {
     opacity: 100%;
     overflow-y: auto !important;
+    width: 100vw;
+    height: fit-content;
   }
 
   .flash-png {
