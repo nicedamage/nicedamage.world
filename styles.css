@@ -1663,6 +1663,7 @@ html, body {
   }
 
   #flash-window {
+    display: block;
     left: 0;
     right: 0;
     bottom: 0;
