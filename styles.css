@@ -286,7 +286,6 @@ box-shadow:
   0 10px 25px rgba(0,0,0,0.35),
   inset 0 1px 0 rgba(255,255,255,0.9),
   inset 0 -2px 4px rgba(0,0,0,0.15);
-cursor: grab;
 z-index: 1000;
 }
 
@@ -318,7 +317,6 @@ position: relative;
 overflow: hidden;
 z-index: 1;
 position: relative;
-margin-bottom: 6px;
 border-radius: 10px 10px 0 0;
 height: 6dvh;          /* define height */
 flex: 0 0 auto;
@@ -643,9 +641,9 @@ z-index: 500;
 /* minimized */
 #message-board.minimized {
 width: 320px;
-height: 340px;
+height: 320px;
 overflow: auto;
-bottom: 110px;
+bottom: 140px;
 }
 
 #message-board.full {
@@ -789,7 +787,8 @@ padding: 5px;
 #messages {
 max-height: 400px;              /* scrollable area */
 overflow-y: auto;
-padding: 12px;
+padding-right: 12px;
+padding-left: 12px;
 font-family: 'Courier New', monospace;
 
 }
@@ -1657,6 +1656,10 @@ html, body {
 
   }
 
+  .zine-body {
+
+  }
+
 /* MAKE THE FLASH WINDOW FULL SCREEN */
 #flash-window {
   left: 0 !important;
@@ -1666,6 +1669,7 @@ html, body {
   width: 100vw !important;
   height: 100vh !important;
   transform: none !important;
+  background: #c0c0c0f3;
 }
 
 /* HIDE THE DESKTOP INDIVIDUAL FLASH */

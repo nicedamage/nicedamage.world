@@ -234,31 +234,7 @@ if (msgBoard) {
     ctx.stroke();
   }
 
-  // Dragging
-  let isDragging = false;
-  let offsetX = 0;
-  let offsetY = 0;
 
-  player.style.position = "fixed";
-  player.style.cursor = "grab";
-
-  player.addEventListener("mousedown", (e) => {
-    isDragging = true;
-    offsetX = e.clientX - player.offsetLeft;
-    offsetY = e.clientY - player.offsetTop;
-    player.style.cursor = "grabbing";
-  });
-
-  document.addEventListener("mousemove", (e) => {
-    if (!isDragging) return;
-    player.style.left = e.clientX - offsetX + "px";
-    player.style.top = e.clientY - offsetY + "px";
-  });
-
-  document.addEventListener("mouseup", () => {
-    isDragging = false;
-    player.style.cursor = "grab";
-  });
 
 
   
