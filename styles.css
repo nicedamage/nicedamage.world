@@ -1262,7 +1262,6 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
   left: 133px;
   width: 57dvw;
   height: 78vh;
-  background-color: rgba(255, 147, 248, 0.929);
   color: #000000;
   border: 2px outset grey;
   border-radius: 10px;
@@ -1296,7 +1295,7 @@ text-shadow: 0 0 2px rgba(0, 0, 0, 0.478);
     height: calc(78vh - 45px); 
     overflow-x: hidden; 
     overflow-y: auto; 
-    background-color: rgb(166, 166, 166); 
+    background: #c0c0c0f3;
     border-radius: 0 0 10px 10px; 
     box-sizing: border-box; 
   }
@@ -1679,12 +1678,10 @@ html, body {
   display: block !important;
   position: absolute;
   left: 0;
-  top: 45px;
   width: 100%;
   height: calc(100vh - 45px);
   overflow-y: auto;
   overflow-x: hidden;
-  background: white;
   box-sizing: border-box;
 }
 
@@ -1708,7 +1705,7 @@ html, body {
   transform: translateX(-50%);
   z-index: 100001;
   padding: 12px 24px;
-  background: rgb(255, 147, 248);
+  background: #c0c0c0f3;
   color: black;
   border: 3px outset white;
   font-family: inherit;
